@@ -7,6 +7,7 @@
 
 ## 在线访问
 - **开发环境**: https://3000-i71tqx6y3m4b1v6z8xk6l-dfc00ec5.sandbox.novita.ai
+- **管理后台**: https://3000-i71tqx6y3m4b1v6z8xk6l-dfc00ec5.sandbox.novita.ai/admin
 - **GitHub**: （待部署）
 
 ## 核心功能
@@ -20,8 +21,16 @@
 6. **成功案例板块** - 真实数据展示（杭州、成都、上海案例），回本周期、营收提升数据
 7. **合作流程板块** - 4步简化流程（咨询→勘察→改造→运营），降低决策压力
 8. **核心优势板块** - 6大优势卡片（低投入高回报、一站式服务、售后保障、客源支持、顶级设备、数据化管理）
-9. **联系表单区** - 双栏布局（联系方式+在线留言表单），表单验证+AJAX提交
+9. **联系表单区** - 双栏布局（联系方式+在线留言表单），表单验证+AJAX提交，数据保存到D1数据库
 10. **底部信息区** - 版权信息、社交媒体链接、服务热线
+11. **🎉 管理后台** - 完整的咨询管理系统（查看、编辑、删除、统计、导出）
+
+### 数据持久化 ✅
+- ✅ **Cloudflare D1数据库** - 表单数据自动保存到SQLite数据库
+- ✅ **管理后台** - 完整的咨询记录管理系统
+- ✅ **统计分析** - 实时统计总数、今日、本周、按状态统计
+- ✅ **数据导出** - 一键导出CSV格式数据
+- ✅ **状态管理** - 待跟进、已联系、已转化、已流失
 
 ### 交互功能 ✅
 - ✅ 平滑滚动到锚点
@@ -33,7 +42,6 @@
 - ✅ 响应式布局（手机+平板+桌面）
 
 ### 待实现功能 📋
-- ⏳ 后端CRM集成（表单数据持久化）
 - ⏳ 邮件通知服务
 - ⏳ 数据统计分析（Google Analytics）
 - ⏳ 微信客服二维码
@@ -192,7 +200,49 @@ pm2 delete webapp
 
 ### 访问地址
 - 本地开发: http://localhost:3000
+- 管理后台: http://localhost:3000/admin
 - 沙盒环境: https://3000-i71tqx6y3m4b1v6z8xk6l-dfc00ec5.sandbox.novita.ai
+- 沙盒后台: https://3000-i71tqx6y3m4b1v6z8xk6l-dfc00ec5.sandbox.novita.ai/admin
+
+## 数据库管理
+
+### D1数据库命令
+
+**查询所有咨询记录**:
+```bash
+npx wrangler d1 execute microconnect-contacts --local --command="SELECT * FROM contacts ORDER BY created_at DESC"
+```
+
+**查询今日咨询**:
+```bash
+npx wrangler d1 execute microconnect-contacts --local --command="SELECT * FROM contacts WHERE DATE(created_at) = DATE('now')"
+```
+
+**统计咨询数量**:
+```bash
+npx wrangler d1 execute microconnect-contacts --local --command="SELECT status, COUNT(*) as count FROM contacts GROUP BY status"
+```
+
+**清空测试数据**:
+```bash
+npx wrangler d1 execute microconnect-contacts --local --command="DELETE FROM contacts"
+```
+
+**导出数据**:
+```bash
+# 在管理后台点击"导出"按钮，自动下载CSV文件
+```
+
+### 管理后台功能
+
+访问 `/admin` 路径可以使用完整的管理后台：
+
+1. **统计看板** - 总咨询数、今日咨询、本周咨询、待跟进数量
+2. **咨询列表** - 查看所有咨询记录，支持搜索和筛选
+3. **状态管理** - 更新咨询状态（待跟进、已联系、已转化、已流失）
+4. **备注功能** - 为每条咨询添加跟进备注
+5. **数据导出** - 一键导出所有数据为CSV格式
+6. **实时刷新** - 每30秒自动刷新数据
 
 ## 部署指南
 
@@ -216,7 +266,7 @@ npx wrangler pages secret put API_KEY --project-name microconnect-hotel
 ## API文档
 
 ### POST /api/contact
-提交联系表单
+提交联系表单，数据自动保存到D1数据库
 
 **请求体**:
 ```json
@@ -224,6 +274,96 @@ npx wrangler pages secret put API_KEY --project-name microconnect-hotel
   "name": "张三",
   "phone": "13800138000",
   "wechat": "zhangsan123",
+  "hotelName": "杭州某商务酒店",
+  "message": "想了解高端电竞房改造方案"
+}
+```
+
+**响应**:
+```json
+{
+  "success": true,
+  "message": "感谢您的咨询，我们会尽快与您联系！",
+  "id": 1
+}
+```
+
+### GET /api/contacts
+查询所有咨询记录（管理后台用）
+
+**响应**:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "张三",
+      "phone": "13800138000",
+      "wechat": "zhangsan123",
+      "hotel_name": "杭州某商务酒店",
+      "message": "想了解高端电竞房改造方案",
+      "status": "new",
+      "created_at": "2024-01-15 10:30:00",
+      "notes": null
+    }
+  ],
+  "count": 1
+}
+```
+
+### PUT /api/contacts/:id
+更新咨询状态和备注（管理后台用）
+
+**请求体**:
+```json
+{
+  "status": "contacted",
+  "notes": "已电话联系，客户很感兴趣，约定下周上门勘察"
+}
+```
+
+**响应**:
+```json
+{
+  "success": true,
+  "message": "更新成功"
+}
+```
+
+### DELETE /api/contacts/:id
+删除咨询记录（管理后台用）
+
+**响应**:
+```json
+{
+  "success": true,
+  "message": "删除成功"
+}
+```
+
+### GET /api/stats
+获取统计数据（管理后台用）
+
+**响应**:
+```json
+{
+  "success": true,
+  "data": {
+    "total": 150,
+    "today": 5,
+    "week": 32,
+    "byStatus": [
+      { "status": "new", "count": 45 },
+      { "status": "contacted", "count": 60 },
+      { "status": "converted", "count": 35 },
+      { "status": "lost", "count": 10 }
+    ]
+  }
+}
+```
+
+
   "hotelName": "杭州某商务酒店",
   "message": "想了解高端电竞房改造方案"
 }
