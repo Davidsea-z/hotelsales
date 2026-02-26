@@ -2,7 +2,11 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
 
-const app = new Hono()
+type Bindings = {
+  DB: D1Database;
+}
+
+const app = new Hono<{ Bindings: Bindings }>()
 
 // Enable CORS for API routes
 app.use('/api/*', cors())
@@ -14,20 +18,546 @@ app.use('/static/*', serveStatic({ root: './public' }))
 app.post('/api/contact', async (c) => {
   try {
     const { name, phone, wechat, hotelName, message } = await c.req.json()
+    const { env } = c
     
-    // 这里可以集成邮件服务或CRM系统
-    console.log('新咨询:', { name, phone, wechat, hotelName, message })
+    // 获取请求信息
+    const ipAddress = c.req.header('cf-connecting-ip') || c.req.header('x-forwarded-for') || 'unknown'
+    const userAgent = c.req.header('user-agent') || 'unknown'
+    
+    // 插入数据库
+    const result = await env.DB.prepare(`
+      INSERT INTO contacts (name, phone, wechat, hotel_name, message, ip_address, user_agent)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).bind(name, phone, wechat || null, hotelName || null, message || null, ipAddress, userAgent).run()
+    
+    console.log('新咨询已保存到数据库:', { 
+      id: result.meta.last_row_id, 
+      name, 
+      phone, 
+      hotel_name: hotelName 
+    })
     
     return c.json({ 
       success: true, 
-      message: '感谢您的咨询，我们会尽快与您联系！' 
+      message: '感谢您的咨询，我们会尽快与您联系！',
+      id: result.meta.last_row_id
     })
   } catch (error) {
+    console.error('保存咨询失败:', error)
     return c.json({ 
       success: false, 
       message: '提交失败，请稍后再试' 
     }, 500)
   }
+})
+
+// 查询所有咨询记录（管理后台用）
+app.get('/api/contacts', async (c) => {
+  try {
+    const { env } = c
+    const { results } = await env.DB.prepare(`
+      SELECT 
+        id, name, phone, wechat, hotel_name, message, 
+        status, created_at, notes
+      FROM contacts 
+      ORDER BY created_at DESC 
+      LIMIT 100
+    `).all()
+    
+    return c.json({ 
+      success: true, 
+      data: results,
+      count: results.length
+    })
+  } catch (error) {
+    console.error('查询失败:', error)
+    return c.json({ 
+      success: false, 
+      message: '查询失败' 
+    }, 500)
+  }
+})
+
+// 更新咨询状态（管理后台用）
+app.put('/api/contacts/:id', async (c) => {
+  try {
+    const { env } = c
+    const id = c.req.param('id')
+    const { status, notes } = await c.req.json()
+    
+    await env.DB.prepare(`
+      UPDATE contacts 
+      SET status = ?, notes = ?
+      WHERE id = ?
+    `).bind(status, notes || null, id).run()
+    
+    return c.json({ 
+      success: true, 
+      message: '更新成功' 
+    })
+  } catch (error) {
+    console.error('更新失败:', error)
+    return c.json({ 
+      success: false, 
+      message: '更新失败' 
+    }, 500)
+  }
+})
+
+// 删除咨询记录（管理后台用）
+app.delete('/api/contacts/:id', async (c) => {
+  try {
+    const { env } = c
+    const id = c.req.param('id')
+    
+    await env.DB.prepare(`
+      DELETE FROM contacts WHERE id = ?
+    `).bind(id).run()
+    
+    return c.json({ 
+      success: true, 
+      message: '删除成功' 
+    })
+  } catch (error) {
+    console.error('删除失败:', error)
+    return c.json({ 
+      success: false, 
+      message: '删除失败' 
+    }, 500)
+  }
+})
+
+// 获取统计数据（管理后台用）
+app.get('/api/stats', async (c) => {
+  try {
+    const { env } = c
+    
+    // 总数
+    const { results: totalResult } = await env.DB.prepare(`
+      SELECT COUNT(*) as count FROM contacts
+    `).all()
+    
+    // 按状态统计
+    const { results: statusResult } = await env.DB.prepare(`
+      SELECT status, COUNT(*) as count 
+      FROM contacts 
+      GROUP BY status
+    `).all()
+    
+    // 今天的咨询数
+    const { results: todayResult } = await env.DB.prepare(`
+      SELECT COUNT(*) as count 
+      FROM contacts 
+      WHERE DATE(created_at) = DATE('now')
+    `).all()
+    
+    // 本周的咨询数
+    const { results: weekResult } = await env.DB.prepare(`
+      SELECT COUNT(*) as count 
+      FROM contacts 
+      WHERE DATE(created_at) >= DATE('now', '-7 days')
+    `).all()
+    
+    return c.json({ 
+      success: true, 
+      data: {
+        total: totalResult[0]?.count || 0,
+        today: todayResult[0]?.count || 0,
+        week: weekResult[0]?.count || 0,
+        byStatus: statusResult
+      }
+    })
+  } catch (error) {
+    console.error('统计失败:', error)
+    return c.json({ 
+      success: false, 
+      message: '统计失败' 
+    }, 500)
+  }
+})
+
+// 管理后台页面
+app.get('/admin', (c) => {
+  return c.html(`
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MICROCONNECT - 咨询管理后台</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+        <script>
+          tailwind.config = {
+            theme: {
+              extend: {
+                colors: {
+                  'tech-blue': '#0A4D8C',
+                  'esports-red': '#E63946',
+                }
+              }
+            }
+          }
+        </script>
+    </head>
+    <body class="bg-gray-100">
+        <!-- Header -->
+        <header class="bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-bolt text-esports-red text-2xl"></i>
+                    <span class="text-xl font-black text-tech-blue">MICROCONNECT</span>
+                    <span class="text-sm text-gray-500 ml-4">咨询管理后台</span>
+                </div>
+                <a href="/" class="text-gray-600 hover:text-tech-blue transition">
+                    <i class="fas fa-home mr-2"></i>返回首页
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8">
+            <!-- 统计卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">总咨询数</p>
+                            <p id="stat-total" class="text-3xl font-bold text-tech-blue">0</p>
+                        </div>
+                        <i class="fas fa-inbox text-4xl text-tech-blue opacity-20"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">今日咨询</p>
+                            <p id="stat-today" class="text-3xl font-bold text-green-600">0</p>
+                        </div>
+                        <i class="fas fa-calendar-day text-4xl text-green-600 opacity-20"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">本周咨询</p>
+                            <p id="stat-week" class="text-3xl font-bold text-purple-600">0</p>
+                        </div>
+                        <i class="fas fa-calendar-week text-4xl text-purple-600 opacity-20"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">待跟进</p>
+                            <p id="stat-new" class="text-3xl font-bold text-esports-red">0</p>
+                        </div>
+                        <i class="fas fa-exclamation-circle text-4xl text-esports-red opacity-20"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 筛选和搜索 -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <input type="text" id="search-input" placeholder="搜索姓名、电话、酒店名称..."
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tech-blue focus:border-transparent">
+                    </div>
+                    <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tech-blue">
+                        <option value="">所有状态</option>
+                        <option value="new">待跟进</option>
+                        <option value="contacted">已联系</option>
+                        <option value="converted">已转化</option>
+                        <option value="lost">已流失</option>
+                    </select>
+                    <button onclick="loadContacts()" class="px-6 py-2 bg-tech-blue text-white rounded-lg hover:bg-opacity-90 transition">
+                        <i class="fas fa-search mr-2"></i>搜索
+                    </button>
+                    <button onclick="exportData()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-opacity-90 transition">
+                        <i class="fas fa-download mr-2"></i>导出
+                    </button>
+                </div>
+            </div>
+
+            <!-- 咨询列表 -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-800">咨询记录</h2>
+                </div>
+                <div id="contacts-list" class="divide-y divide-gray-200">
+                    <div class="p-8 text-center text-gray-500">
+                        <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                        <p>加载中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑模态框 -->
+        <div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md m-4">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-bold">编辑咨询</h3>
+                </div>
+                <div class="p-6">
+                    <input type="hidden" id="edit-id">
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">状态</label>
+                        <select id="edit-status" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                            <option value="new">待跟进</option>
+                            <option value="contacted">已联系</option>
+                            <option value="converted">已转化</option>
+                            <option value="lost">已流失</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">备注</label>
+                        <textarea id="edit-notes" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea>
+                    </div>
+                </div>
+                <div class="p-6 border-t border-gray-200 flex justify-end space-x-3">
+                    <button onclick="closeEditModal()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition">
+                        取消
+                    </button>
+                    <button onclick="saveEdit()" class="px-4 py-2 bg-tech-blue text-white rounded-lg hover:bg-opacity-90 transition">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+        <script>
+            let allContacts = [];
+
+            // 加载统计数据
+            async function loadStats() {
+                try {
+                    const res = await axios.get('/api/stats');
+                    if (res.data.success) {
+                        const stats = res.data.data;
+                        document.getElementById('stat-total').textContent = stats.total;
+                        document.getElementById('stat-today').textContent = stats.today;
+                        document.getElementById('stat-week').textContent = stats.week;
+                        
+                        // 计算待跟进数量
+                        const newCount = stats.byStatus.find(s => s.status === 'new')?.count || 0;
+                        document.getElementById('stat-new').textContent = newCount;
+                    }
+                } catch (error) {
+                    console.error('加载统计失败:', error);
+                }
+            }
+
+            // 加载咨询列表
+            async function loadContacts() {
+                try {
+                    const res = await axios.get('/api/contacts');
+                    if (res.data.success) {
+                        allContacts = res.data.data;
+                        renderContacts(allContacts);
+                    }
+                } catch (error) {
+                    console.error('加载失败:', error);
+                    document.getElementById('contacts-list').innerHTML = \`
+                        <div class="p-8 text-center text-red-500">
+                            <i class="fas fa-exclamation-triangle text-3xl mb-4"></i>
+                            <p>加载失败，请刷新重试</p>
+                        </div>
+                    \`;
+                }
+            }
+
+            // 渲染咨询列表
+            function renderContacts(contacts) {
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                const statusFilter = document.getElementById('status-filter').value;
+                
+                // 筛选
+                let filtered = contacts.filter(c => {
+                    const matchSearch = !searchTerm || 
+                        c.name.toLowerCase().includes(searchTerm) ||
+                        c.phone.includes(searchTerm) ||
+                        (c.hotel_name && c.hotel_name.toLowerCase().includes(searchTerm));
+                    const matchStatus = !statusFilter || c.status === statusFilter;
+                    return matchSearch && matchStatus;
+                });
+
+                if (filtered.length === 0) {
+                    document.getElementById('contacts-list').innerHTML = \`
+                        <div class="p-8 text-center text-gray-500">
+                            <i class="fas fa-inbox text-3xl mb-4"></i>
+                            <p>暂无数据</p>
+                        </div>
+                    \`;
+                    return;
+                }
+
+                const html = filtered.map(contact => {
+                    const statusColors = {
+                        'new': 'bg-blue-100 text-blue-800',
+                        'contacted': 'bg-yellow-100 text-yellow-800',
+                        'converted': 'bg-green-100 text-green-800',
+                        'lost': 'bg-red-100 text-red-800'
+                    };
+                    const statusLabels = {
+                        'new': '待跟进',
+                        'contacted': '已联系',
+                        'converted': '已转化',
+                        'lost': '已流失'
+                    };
+                    
+                    return \`
+                        <div class="p-6 hover:bg-gray-50 transition">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <h3 class="text-lg font-bold text-gray-900">\${contact.name}</h3>
+                                        <span class="px-3 py-1 rounded-full text-xs font-semibold \${statusColors[contact.status]}">
+                                            \${statusLabels[contact.status]}
+                                        </span>
+                                    </div>
+                                    <div class="grid md:grid-cols-2 gap-2 text-sm text-gray-600 mb-3">
+                                        <p><i class="fas fa-phone text-tech-blue mr-2"></i><strong>电话:</strong> \${contact.phone}</p>
+                                        <p><i class="fas fa-weixin text-green-600 mr-2"></i><strong>微信:</strong> \${contact.wechat || '未提供'}</p>
+                                        <p><i class="fas fa-hotel text-purple-600 mr-2"></i><strong>酒店:</strong> \${contact.hotel_name || '未提供'}</p>
+                                        <p><i class="fas fa-clock text-gray-500 mr-2"></i><strong>时间:</strong> \${new Date(contact.created_at).toLocaleString('zh-CN')}</p>
+                                    </div>
+                                    \${contact.message ? \`
+                                        <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-700 mb-2">
+                                            <strong>留言:</strong> \${contact.message}
+                                        </div>
+                                    \` : ''}
+                                    \${contact.notes ? \`
+                                        <div class="bg-yellow-50 rounded-lg p-3 text-sm text-gray-700">
+                                            <strong>备注:</strong> \${contact.notes}
+                                        </div>
+                                    \` : ''}
+                                </div>
+                                <div class="flex flex-col space-y-2 ml-4">
+                                    <button onclick="editContact(\${contact.id})" class="px-4 py-2 bg-tech-blue text-white rounded-lg text-sm hover:bg-opacity-90 transition">
+                                        <i class="fas fa-edit mr-1"></i>编辑
+                                    </button>
+                                    <button onclick="deleteContact(\${contact.id})" class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm hover:bg-opacity-90 transition">
+                                        <i class="fas fa-trash mr-1"></i>删除
+                                    </button>
+                                    <a href="tel:\${contact.phone}" class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-opacity-90 transition text-center">
+                                        <i class="fas fa-phone mr-1"></i>拨打
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    \`;
+                }).join('');
+
+                document.getElementById('contacts-list').innerHTML = html;
+            }
+
+            // 编辑咨询
+            function editContact(id) {
+                const contact = allContacts.find(c => c.id === id);
+                if (!contact) return;
+
+                document.getElementById('edit-id').value = id;
+                document.getElementById('edit-status').value = contact.status;
+                document.getElementById('edit-notes').value = contact.notes || '';
+                document.getElementById('edit-modal').classList.remove('hidden');
+            }
+
+            // 关闭编辑模态框
+            function closeEditModal() {
+                document.getElementById('edit-modal').classList.add('hidden');
+            }
+
+            // 保存编辑
+            async function saveEdit() {
+                const id = document.getElementById('edit-id').value;
+                const status = document.getElementById('edit-status').value;
+                const notes = document.getElementById('edit-notes').value;
+
+                try {
+                    const res = await axios.put(\`/api/contacts/\${id}\`, { status, notes });
+                    if (res.data.success) {
+                        closeEditModal();
+                        await loadContacts();
+                        await loadStats();
+                        alert('更新成功！');
+                    }
+                } catch (error) {
+                    console.error('保存失败:', error);
+                    alert('保存失败，请重试');
+                }
+            }
+
+            // 删除咨询
+            async function deleteContact(id) {
+                if (!confirm('确定要删除这条咨询记录吗？')) return;
+
+                try {
+                    const res = await axios.delete(\`/api/contacts/\${id}\`);
+                    if (res.data.success) {
+                        await loadContacts();
+                        await loadStats();
+                        alert('删除成功！');
+                    }
+                } catch (error) {
+                    console.error('删除失败:', error);
+                    alert('删除失败，请重试');
+                }
+            }
+
+            // 导出数据
+            function exportData() {
+                const csv = [
+                    ['ID', '姓名', '电话', '微信', '酒店名称', '留言', '状态', '创建时间', '备注'].join(','),
+                    ...allContacts.map(c => [
+                        c.id,
+                        c.name,
+                        c.phone,
+                        c.wechat || '',
+                        c.hotel_name || '',
+                        (c.message || '').replace(/,/g, '，'),
+                        c.status,
+                        c.created_at,
+                        (c.notes || '').replace(/,/g, '，')
+                    ].join(','))
+                ].join('\\n');
+
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = \`咨询记录_\${new Date().toISOString().split('T')[0]}.csv\`;
+                link.click();
+            }
+
+            // 搜索框实时搜索
+            document.getElementById('search-input').addEventListener('input', () => {
+                renderContacts(allContacts);
+            });
+
+            // 状态筛选
+            document.getElementById('status-filter').addEventListener('change', () => {
+                renderContacts(allContacts);
+            });
+
+            // 页面加载时初始化
+            window.addEventListener('load', () => {
+                loadStats();
+                loadContacts();
+                // 每30秒自动刷新
+                setInterval(() => {
+                    loadStats();
+                    loadContacts();
+                }, 30000);
+            });
+        </script>
+    </body>
+    </html>
+  `)
 })
 
 // Main page
