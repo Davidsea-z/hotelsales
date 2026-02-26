@@ -512,26 +512,43 @@ app.get('/admin', (c) => {
 
             // 导出数据
             function exportData() {
+                // 状态映射
+                const statusMap = {
+                    'new': '待跟进',
+                    'contacted': '已联系',
+                    'converted': '已转化',
+                    'lost': '已流失'
+                };
+                
+                // 构建CSV内容
                 const csv = [
                     ['ID', '姓名', '电话', '微信', '酒店名称', '留言', '状态', '创建时间', '备注'].join(','),
                     ...allContacts.map(c => [
                         c.id,
-                        c.name,
+                        \`"\${c.name}"\`,  // 用双引号包裹，避免逗号问题
                         c.phone,
-                        c.wechat || '',
-                        c.hotel_name || '',
-                        (c.message || '').replace(/,/g, '，'),
-                        c.status,
+                        \`"\${c.wechat || ''}"\`,
+                        \`"\${c.hotel_name || ''}"\`,
+                        \`"\${(c.message || '').replace(/"/g, '""')}"\`,  // 转义双引号
+                        statusMap[c.status] || c.status,
                         c.created_at,
-                        (c.notes || '').replace(/,/g, '，')
+                        \`"\${(c.notes || '').replace(/"/g, '""')}"\`
                     ].join(','))
-                ].join('\\n');
+                ].join('\\r\\n');  // 使用Windows换行符
 
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                // 添加UTF-8 BOM，让Excel正确识别编码
+                const BOM = '\\uFEFF';
+                const csvWithBOM = BOM + csv;
+                
+                // 创建Blob并下载
+                const blob = new Blob([csvWithBOM], { type: 'text/csv;charset=utf-8;' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
                 link.download = \`咨询记录_\${new Date().toISOString().split('T')[0]}.csv\`;
                 link.click();
+                
+                // 清理URL对象
+                setTimeout(() => URL.revokeObjectURL(link.href), 100);
             }
 
             // 搜索框实时搜索
