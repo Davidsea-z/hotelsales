@@ -818,11 +818,11 @@ app.get('/', (c) => {
                         <i class="fas fa-lightbulb mr-2"></i>解决方案
                     </div>
                     <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">
-                        电竞房改造：盘活闲置资产的<span class="text-esports-red">最佳方案</span>
+                        电竞房改造：盘活闲置资产的<span class="text-esports-red">有效方案</span>
                     </h2>
                     <p class="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
-                        抓住千亿级电竞市场红利，将普通客房升级为高收益电竞房<br class="hidden lg:block">
-                        让年轻人主动上门，让空置房间变成赚钱机器
+                        抓住电竞市场机遇，将闲置客房升级为特色电竞房<br class="hidden lg:block">
+                        吸引年轻消费群体，提升房间利用率和营收水平
                     </p>
                 </div>
                 
@@ -834,8 +834,8 @@ app.get('/', (c) => {
                                     <i class="fas fa-rocket text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">提升房价50%-100%</h3>
-                                    <p class="text-gray-600">普通标间改造后房价可达300-600元/晚，高端电竞套房可达800-1500元/晚</p>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">合理提升房价</h3>
+                                    <p class="text-gray-600">根据区域定位，电竞房定价在200-600元/晚，比普通客房有一定溢价空间</p>
                                 </div>
                             </div>
                             
@@ -844,8 +844,8 @@ app.get('/', (c) => {
                                     <i class="fas fa-users text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">吸引18-35岁高消费人群</h3>
-                                    <p class="text-gray-600">电竞爱好者消费能力强，平均客单价高，复购率达85%以上</p>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">吸引18-35岁年轻客群</h3>
+                                    <p class="text-gray-600">电竞爱好者对配置要求高，愿意为优质体验支付合理溢价，复购意愿较强</p>
                                 </div>
                             </div>
                             
@@ -854,8 +854,8 @@ app.get('/', (c) => {
                                     <i class="fas fa-calendar-check text-white text-xl"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">全年高入住率</h3>
-                                    <p class="text-gray-600">电竞房不受淡旺季影响，工作日周末都爆满，年均入住率超75%</p>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">稳定提升入住率</h3>
+                                    <p class="text-gray-600">电竞房受节假日和季节影响较小，有助于提高闲置房间的整体利用率</p>
                                 </div>
                             </div>
                             
@@ -872,14 +872,14 @@ app.get('/', (c) => {
                     </div>
                     
                     <div class="bg-gradient-to-br from-tech-blue to-tech-blue-light rounded-2xl p-8 lg:p-12 text-white">
-                        <h3 class="text-2xl lg:text-3xl font-black mb-6">改造收益计算</h3>
+                        <h3 class="text-2xl lg:text-3xl font-black mb-6">改造收益测算示例</h3>
                         <div class="space-y-6">
                             <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-gray-200">普通标间（改造前）</span>
-                                    <span class="text-2xl font-bold">¥150/晚</span>
+                                    <span class="text-2xl font-bold">¥180/晚</span>
                                 </div>
-                                <div class="text-sm text-gray-300">月均入住率：40% | 月收入：¥1,800</div>
+                                <div class="text-sm text-gray-300">月均入住率：50% | 月收入：¥2,700</div>
                             </div>
                             
                             <div class="text-center">
@@ -889,15 +889,19 @@ app.get('/', (c) => {
                             <div class="bg-esports-red/20 backdrop-blur-sm rounded-lg p-6 border-2 border-yellow-300">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-white font-semibold">电竞房（改造后）</span>
-                                    <span class="text-3xl font-black text-yellow-300">¥400/晚</span>
+                                    <span class="text-3xl font-black text-yellow-300">¥280/晚</span>
                                 </div>
-                                <div class="text-sm text-yellow-100">月均入住率：75% | 月收入：¥9,000</div>
+                                <div class="text-sm text-yellow-100">月均入住率：70% | 月收入：¥5,880</div>
                             </div>
                             
                             <div class="bg-yellow-300 text-tech-blue-dark rounded-lg p-6 text-center">
                                 <div class="text-sm font-semibold mb-2">单间月收益提升</div>
-                                <div class="text-4xl font-black">¥7,200</div>
-                                <div class="text-sm mt-2">年收益增加 ¥86,400</div>
+                                <div class="text-4xl font-black">¥3,180</div>
+                                <div class="text-sm mt-2">年收益增加约 ¥38,000</div>
+                            </div>
+                            
+                            <div class="text-xs text-blue-100 text-center mt-4">
+                                *以上数据为测算示例，实际收益受区域、定位、运营等多因素影响
                             </div>
                         </div>
                     </div>
@@ -1242,45 +1246,50 @@ app.get('/', (c) => {
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    <!-- Case 1 -->
+                    <!-- Case 1: 华东某全新电竞酒店 -->
                     <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 lg:p-8 border-2 border-gray-200 hover:border-tech-blue transition">
                         <div class="flex items-center justify-between mb-6">
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900">杭州某商务酒店</h3>
-                                <p class="text-sm text-gray-500">经济型方案 | 20间改造</p>
+                                <h3 class="text-xl font-bold text-gray-900">华东某全新电竞酒店</h3>
+                                <p class="text-sm text-gray-500">全新店整体打造 | 全量房间</p>
                             </div>
                             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-hotel text-green-600 text-xl"></i>
+                                <i class="fas fa-star text-green-600 text-xl"></i>
                             </div>
                         </div>
                         
                         <div class="space-y-4 mb-6">
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">改造前月均营收</span>
-                                <span class="font-bold text-gray-900">¥3.6万</span>
+                            <div class="bg-red-50 rounded-lg p-4">
+                                <div class="text-sm font-bold text-gray-800 mb-3">改造前：</div>
+                                <div class="text-sm text-gray-700 space-y-2">
+                                    <div>• 入住率：<span class="font-semibold">约60%</span></div>
+                                    <div>• 月营收：<span class="font-semibold">约9.5万元</span></div>
+                                    <div>• 空置率：<span class="font-semibold">约40%</span></div>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">改造后月均营收</span>
-                                <span class="font-bold text-tech-blue">¥18万</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">空置率下降</span>
-                                <span class="font-bold text-esports-red">45%↓</span>
+                            
+                            <div class="bg-green-50 rounded-lg p-4">
+                                <div class="text-sm font-bold text-gray-800 mb-3">改造后：</div>
+                                <div class="text-sm text-gray-700 space-y-2">
+                                    <div>• 入住率：<span class="text-green-600 font-black text-base">90%+</span></div>
+                                    <div>• 月营收：<span class="text-green-600 font-black text-base">14.6万→20万+</span></div>
+                                    <div>• 空置率：<span class="text-green-600 font-black text-base">降至10%以下</span></div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="bg-green-50 rounded-lg p-4 text-center">
-                            <div class="text-sm text-gray-600 mb-1">实际回本周期</div>
-                            <div class="text-3xl font-black text-green-600">3.5个月</div>
+                        <div class="bg-blue-50 rounded-lg p-4 text-center">
+                            <div class="text-sm font-semibold text-gray-700 mb-1">总投入 <span class="font-bold">250万元</span></div>
+                            <div class="text-3xl font-black text-tech-blue">3年回本</div>
                         </div>
                     </div>
                     
-                    <!-- Case 2 -->
+                    <!-- Case 2: 华东某商务酒店 -->
                     <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 lg:p-8 border-2 border-gray-200 hover:border-tech-blue transition">
                         <div class="flex items-center justify-between mb-6">
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900">成都某连锁酒店</h3>
-                                <p class="text-sm text-gray-500">高端方案 | 15间改造</p>
+                                <h3 class="text-xl font-bold text-gray-900">华东某商务酒店</h3>
+                                <p class="text-sm text-gray-500">轻量经济型 | 20间改造</p>
                             </div>
                             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                                 <i class="fas fa-building text-blue-600 text-xl"></i>
@@ -1288,56 +1297,66 @@ app.get('/', (c) => {
                         </div>
                         
                         <div class="space-y-4 mb-6">
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">改造前月均营收</span>
-                                <span class="font-bold text-gray-900">¥4.5万</span>
+                            <div class="bg-red-50 rounded-lg p-4">
+                                <div class="text-sm font-bold text-gray-800 mb-3">改造前：</div>
+                                <div class="text-sm text-gray-700 space-y-2">
+                                    <div>• 入住率：<span class="font-semibold">约60%</span></div>
+                                    <div>• 月营收：<span class="font-semibold">约13万元</span></div>
+                                    <div>• 空置率：<span class="font-semibold">约40%</span></div>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">改造后月均营收</span>
-                                <span class="font-bold text-tech-blue">¥27万</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">营收提升</span>
-                                <span class="font-bold text-esports-red">80%↑</span>
+                            
+                            <div class="bg-green-50 rounded-lg p-4">
+                                <div class="text-sm font-bold text-gray-800 mb-3">改造后：</div>
+                                <div class="text-sm text-gray-700 space-y-2">
+                                    <div>• 入住率：<span class="text-green-600 font-black text-base">92%+（峰值96%+）</span></div>
+                                    <div>• 月营收：<span class="text-green-600 font-black text-base">提升50%+</span></div>
+                                    <div>• 空置率：<span class="text-green-600 font-black text-base">不足8%</span></div>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="bg-blue-50 rounded-lg p-4 text-center">
-                            <div class="text-sm text-gray-600 mb-1">实际回本周期</div>
-                            <div class="text-3xl font-black text-blue-600">4.8个月</div>
+                        <div class="bg-green-50 rounded-lg p-4 text-center">
+                            <div class="text-sm font-semibold text-gray-700 mb-1">总投入 <span class="font-bold">35万元</span></div>
+                            <div class="text-3xl font-black text-green-600">6个月回本</div>
                         </div>
                     </div>
                     
-                    <!-- Case 3 -->
+                    <!-- Case 3: 华东某存量酒店 -->
                     <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 lg:p-8 border-2 border-gray-200 hover:border-tech-blue transition">
                         <div class="flex items-center justify-between mb-6">
                             <div>
-                                <h3 class="text-xl font-bold text-gray-900">上海某精品酒店</h3>
-                                <p class="text-sm text-gray-500">豪华方案 | 5间套房</p>
+                                <h3 class="text-xl font-bold text-gray-900">华东某存量酒店</h3>
+                                <p class="text-sm text-gray-500">中度进阶方案 | 40间改造</p>
                             </div>
                             <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-star text-purple-600 text-xl"></i>
+                                <i class="fas fa-hotel text-purple-600 text-xl"></i>
                             </div>
                         </div>
                         
                         <div class="space-y-4 mb-6">
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">改造前月均营收</span>
-                                <span class="font-bold text-gray-900">¥2.4万</span>
+                            <div class="bg-red-50 rounded-lg p-4">
+                                <div class="text-sm font-bold text-gray-800 mb-3">改造前：</div>
+                                <div class="text-sm text-gray-700 space-y-2">
+                                    <div>• 入住率：<span class="font-semibold">约50%</span></div>
+                                    <div>• 月营收：<span class="font-semibold">约11万元</span></div>
+                                    <div>• 空置率：<span class="font-semibold">约50%</span></div>
+                                </div>
                             </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">改造后月均营收</span>
-                                <span class="font-bold text-tech-blue">¥18万</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-3 border-b border-gray-200">
-                                <span class="text-gray-600">平均房价</span>
-                                <span class="font-bold text-esports-red">¥1200/晚</span>
+                            
+                            <div class="bg-green-50 rounded-lg p-4">
+                                <div class="text-sm font-bold text-gray-800 mb-3">改造后：</div>
+                                <div class="text-sm text-gray-700 space-y-2">
+                                    <div>• 入住率：<span class="text-green-600 font-black text-base">75%左右</span></div>
+                                    <div>• 月营收：<span class="text-green-600 font-black text-base">提升40%+</span></div>
+                                    <div>• 空置率：<span class="text-green-600 font-black text-base">降至25%左右</span></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="bg-purple-50 rounded-lg p-4 text-center">
-                            <div class="text-sm text-gray-600 mb-1">实际回本周期</div>
-                            <div class="text-3xl font-black text-purple-600">6.5个月</div>
+                            <div class="text-sm font-semibold text-gray-700 mb-1">总投入 <span class="font-bold">100万元</span></div>
+                            <div class="text-3xl font-black text-purple-600">6个月回本</div>
                         </div>
                     </div>
                 </div>
@@ -1450,15 +1469,6 @@ app.get('/', (c) => {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="mt-12 text-center">
-                    <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-6 inline-block">
-                        <p class="text-gray-900 font-semibold">
-                            <i class="fas fa-clock text-yellow-600 mr-2"></i>
-                            从签约到正式营业，最快<span class="text-esports-red text-xl font-black">10天</span>即可完成
-                        </p>
                     </div>
                 </div>
             </div>
