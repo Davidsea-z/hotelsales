@@ -577,7 +577,7 @@ var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var ke=(t,e,s)=>e in
         <section id="pain-points" class="py-16 lg:py-24 bg-gray-50">
             <div class="container mx-auto px-4 lg:px-8">
                 <div class="text-center mb-12 lg:mb-16">
-                    <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">
+                    <h2 class="text-2xl lg:text-4xl font-black text-gray-900 mb-4">
                         您的酒店是否面临这些困境？
                     </h2>
                     <p class="text-lg lg:text-xl text-gray-600">
@@ -662,7 +662,7 @@ var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var ke=(t,e,s)=>e in
                     <div class="inline-block bg-tech-blue/10 text-tech-blue px-4 py-2 rounded-full text-sm font-semibold mb-4">
                         <i class="fas fa-lightbulb mr-2"></i>解决方案
                     </div>
-                    <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">
+                    <h2 class="text-2xl lg:text-4xl font-black text-gray-900 mb-4">
                         电竞房改造：盘活闲置资产的<span class="text-esports-red">有效方案</span>
                     </h2>
                     <p class="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
@@ -737,7 +737,7 @@ var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var ke=(t,e,s)=>e in
                             <div class="bg-esports-red/20 backdrop-blur-sm rounded-lg p-6 border-2 border-yellow-300">
                                 <div class="flex justify-between items-center mb-4">
                                     <span class="text-lg text-white font-semibold">电竞房（改造后）</span>
-                                    <span class="text-4xl font-black text-yellow-300">¥300/晚</span>
+                                    <span class="text-3xl lg:text-4xl font-black text-yellow-300">¥300/晚</span>
                                 </div>
                                 <div class="text-center mb-4">
                                     <div class="text-base text-yellow-100 mb-2">房价提升</div>
