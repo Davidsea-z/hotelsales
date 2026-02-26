@@ -6,12 +6,12 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  // D1数据库配置 - 本地开发使用 --local 模式
+  // D1数据库配置 - 生产环境
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "microconnect-contacts",
-      "database_id": "local-dev-db"
+      "database_name": "microconnect-contacts-prod",
+      "database_id": "fcdbbaa8-7a65-4de5-80c6-6462fd5f7989"
     }
   ]
 }
