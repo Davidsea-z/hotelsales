@@ -872,36 +872,65 @@ app.get('/', (c) => {
                     </div>
                     
                     <div class="bg-gradient-to-br from-tech-blue to-tech-blue-light rounded-2xl p-8 lg:p-12 text-white">
-                        <h3 class="text-2xl lg:text-3xl font-black mb-6">改造收益测算示例</h3>
+                        <h3 class="text-3xl lg:text-4xl font-black mb-6">真实改造案例数据</h3>
+                        <div class="mb-6 text-base text-blue-100">
+                            <i class="fas fa-map-marker-alt mr-2"></i>浙江某连锁酒店（人民广场核心商圈）
+                        </div>
                         <div class="space-y-6">
                             <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-gray-200">普通标间（改造前）</span>
-                                    <span class="text-2xl font-bold">¥180/晚</span>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-lg text-gray-200">普通客房（改造前）</span>
+                                    <span class="text-3xl font-bold">¥200/晚</span>
                                 </div>
-                                <div class="text-sm text-gray-300">月均入住率：50% | 月收入：¥2,700</div>
+                                <div class="text-base text-gray-300">平均入住率：60%</div>
                             </div>
                             
                             <div class="text-center">
-                                <i class="fas fa-arrow-down text-3xl text-yellow-300"></i>
+                                <i class="fas fa-arrow-down text-4xl text-yellow-300"></i>
                             </div>
                             
                             <div class="bg-esports-red/20 backdrop-blur-sm rounded-lg p-6 border-2 border-yellow-300">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-white font-semibold">电竞房（改造后）</span>
-                                    <span class="text-3xl font-black text-yellow-300">¥280/晚</span>
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-lg text-white font-semibold">电竞房（改造后）</span>
+                                    <span class="text-4xl font-black text-yellow-300">¥300/晚</span>
                                 </div>
-                                <div class="text-sm text-yellow-100">月均入住率：70% | 月收入：¥5,880</div>
+                                <div class="text-center mb-4">
+                                    <div class="text-base text-yellow-100 mb-2">房价提升</div>
+                                    <div class="text-4xl font-black text-yellow-300">50%</div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-white/10 rounded-lg p-4 text-center">
+                                        <div class="text-3xl font-black text-yellow-300">95%+</div>
+                                        <div class="text-sm text-gray-300 mt-2">电竞房出租率</div>
+                                    </div>
+                                    <div class="bg-white/10 rounded-lg p-4 text-center">
+                                        <div class="text-3xl font-black text-yellow-300">90%</div>
+                                        <div class="text-sm text-gray-300 mt-2">整体入住率</div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="bg-yellow-300 text-tech-blue-dark rounded-lg p-6 text-center">
-                                <div class="text-sm font-semibold mb-2">单间月收益提升</div>
-                                <div class="text-4xl font-black">¥3,180</div>
-                                <div class="text-sm mt-2">年收益增加约 ¥38,000</div>
+                            <div class="bg-yellow-300 text-tech-blue-dark rounded-lg p-6">
+                                <div class="text-center mb-4">
+                                    <div class="text-base font-semibold mb-4">核心改造成果</div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <div class="text-4xl font-black">50%</div>
+                                            <div class="text-sm mt-2">房价提升</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-4xl font-black">35%↑</div>
+                                            <div class="text-sm mt-2">入住率提升</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-center text-tech-blue pt-4 border-t border-tech-blue/20">
+                                    电竞植入能为酒店在淡季产生比普通客房更高的溢价
+                                </div>
                             </div>
                             
-                            <div class="text-xs text-blue-100 text-center mt-4">
-                                *以上数据为测算示例，实际收益受区域、定位、运营等多因素影响
+                            <div class="text-sm text-blue-100 text-center mt-4">
+                                *数据来源于真实合作案例，已脱敏处理。实际收益受区域、定位、运营等多因素影响
                             </div>
                         </div>
                     </div>
