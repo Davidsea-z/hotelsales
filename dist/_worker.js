@@ -1,4 +1,4 @@
-var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var Ce=(t,e,s)=>e in t?Ee(t,e,{enumerable:!0,configurable:!0,writable:!0,value:s}):t[e]=s;var u=(t,e,s)=>Ce(t,typeof e!="symbol"?e+"":e,s),$t=(t,e,s)=>e.has(t)||zt("Cannot "+s);var n=(t,e,s)=>($t(t,e,"read from private field"),s?s.call(t):e.get(t)),g=(t,e,s)=>e.has(t)?zt("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,s),f=(t,e,s,a)=>($t(t,e,"write to private field"),a?a.call(t,s):e.set(t,s),s),b=(t,e,s)=>($t(t,e,"access private method"),s);var Wt=(t,e,s,a)=>({set _(r){f(t,e,r,s)},get _(){return n(t,e,a)}});var Vt=(t,e,s)=>(a,r)=>{let i=-1;return l(0);async function l(c){if(c<=i)throw new Error("next() called multiple times");i=c;let o,d=!1,x;if(t[c]?(x=t[c][0][0],a.req.routeIndex=c):x=c===t.length&&r||void 0,x)try{o=await x(a,()=>l(c+1))}catch(h){if(h instanceof Error&&e)a.error=h,o=await e(h,a),d=!0;else throw h}else a.finalized===!1&&s&&(o=await s(a));return o&&(a.finalized===!1||d)&&(a.res=o),a}},ke=Symbol(),je=async(t,e=Object.create(null))=>{const{all:s=!1,dot:a=!1}=e,i=(t instanceof oe?t.raw.headers:t.headers).get("Content-Type");return i!=null&&i.startsWith("multipart/form-data")||i!=null&&i.startsWith("application/x-www-form-urlencoded")?Re(t,{all:s,dot:a}):{}};async function Re(t,e){const s=await t.formData();return s?Oe(s,e):{}}function Oe(t,e){const s=Object.create(null);return t.forEach((a,r)=>{e.all||r.endsWith("[]")?Te(s,r,a):s[r]=a}),e.dot&&Object.entries(s).forEach(([a,r])=>{a.includes(".")&&(Se(s,a,r),delete s[a])}),s}var Te=(t,e,s)=>{t[e]!==void 0?Array.isArray(t[e])?t[e].push(s):t[e]=[t[e],s]:e.endsWith("[]")?t[e]=[s]:t[e]=s},Se=(t,e,s)=>{let a=t;const r=e.split(".");r.forEach((i,l)=>{l===r.length-1?a[i]=s:((!a[i]||typeof a[i]!="object"||Array.isArray(a[i])||a[i]instanceof File)&&(a[i]=Object.create(null)),a=a[i])})},ae=t=>{const e=t.split("/");return e[0]===""&&e.shift(),e},Ae=t=>{const{groups:e,path:s}=Pe(t),a=ae(s);return Ne(a,e)},Pe=t=>{const e=[];return t=t.replace(/\{[^}]+\}/g,(s,a)=>{const r=`@${a}`;return e.push([r,s]),r}),{groups:e,path:t}},Ne=(t,e)=>{for(let s=e.length-1;s>=0;s--){const[a]=e[s];for(let r=t.length-1;r>=0;r--)if(t[r].includes(a)){t[r]=t[r].replace(a,e[s][1]);break}}return t},Tt={},Ie=(t,e)=>{if(t==="*")return"*";const s=t.match(/^\:([^\{\}]+)(?:\{(.+)\})?$/);if(s){const a=`${t}#${e}`;return Tt[a]||(s[2]?Tt[a]=e&&e[0]!==":"&&e[0]!=="*"?[a,s[1],new RegExp(`^${s[2]}(?=/${e})`)]:[t,s[1],new RegExp(`^${s[2]}$`)]:Tt[a]=[t,s[1],!0]),Tt[a]}return null},Ft=(t,e)=>{try{return e(t)}catch{return t.replace(/(?:%[0-9A-Fa-f]{2})+/g,s=>{try{return e(s)}catch{return s}})}},_e=t=>Ft(t,decodeURI),re=t=>{const e=t.url,s=e.indexOf("/",e.indexOf(":")+4);let a=s;for(;a<e.length;a++){const r=e.charCodeAt(a);if(r===37){const i=e.indexOf("?",a),l=e.indexOf("#",a),c=i===-1?l===-1?void 0:l:l===-1?i:Math.min(i,l),o=e.slice(s,c);return _e(o.includes("%25")?o.replace(/%25/g,"%2525"):o)}else if(r===63||r===35)break}return e.slice(s,a)},Me=t=>{const e=re(t);return e.length>1&&e.at(-1)==="/"?e.slice(0,-1):e},it=(t,e,...s)=>(s.length&&(e=it(e,...s)),`${(t==null?void 0:t[0])==="/"?"":"/"}${t}${e==="/"?"":`${(t==null?void 0:t.at(-1))==="/"?"":"/"}${(e==null?void 0:e[0])==="/"?e.slice(1):e}`}`),ie=t=>{if(t.charCodeAt(t.length-1)!==63||!t.includes(":"))return null;const e=t.split("/"),s=[];let a="";return e.forEach(r=>{if(r!==""&&!/\:/.test(r))a+="/"+r;else if(/\:/.test(r))if(/\?/.test(r)){s.length===0&&a===""?s.push("/"):s.push(a);const i=r.replace("?","");a+="/"+i,s.push(a)}else a+="/"+r}),s.filter((r,i,l)=>l.indexOf(r)===i)},Ht=t=>/[%+]/.test(t)?(t.indexOf("+")!==-1&&(t=t.replace(/\+/g," ")),t.indexOf("%")!==-1?Ft(t,ne):t):t,le=(t,e,s)=>{let a;if(!s&&e&&!/[%+]/.test(e)){let l=t.indexOf("?",8);if(l===-1)return;for(t.startsWith(e,l+1)||(l=t.indexOf(`&${e}`,l+1));l!==-1;){const c=t.charCodeAt(l+e.length+1);if(c===61){const o=l+e.length+2,d=t.indexOf("&",o);return Ht(t.slice(o,d===-1?void 0:d))}else if(c==38||isNaN(c))return"";l=t.indexOf(`&${e}`,l+1)}if(a=/[%+]/.test(t),!a)return}const r={};a??(a=/[%+]/.test(t));let i=t.indexOf("?",8);for(;i!==-1;){const l=t.indexOf("&",i+1);let c=t.indexOf("=",i);c>l&&l!==-1&&(c=-1);let o=t.slice(i+1,c===-1?l===-1?void 0:l:c);if(a&&(o=Ht(o)),i=l,o==="")continue;let d;c===-1?d="":(d=t.slice(c+1,l===-1?void 0:l),a&&(d=Ht(d))),s?(r[o]&&Array.isArray(r[o])||(r[o]=[]),r[o].push(d)):r[o]??(r[o]=d)}return e?r[e]:r},De=le,$e=(t,e)=>le(t,e,!0),ne=decodeURIComponent,Gt=t=>Ft(t,ne),ot,T,B,ce,de,Bt,U,Jt,oe=(Jt=class{constructor(t,e="/",s=[[]]){g(this,B);u(this,"raw");g(this,ot);g(this,T);u(this,"routeIndex",0);u(this,"path");u(this,"bodyCache",{});g(this,U,t=>{const{bodyCache:e,raw:s}=this,a=e[t];if(a)return a;const r=Object.keys(e)[0];return r?e[r].then(i=>(r==="json"&&(i=JSON.stringify(i)),new Response(i)[t]())):e[t]=s[t]()});this.raw=t,this.path=e,f(this,T,s),f(this,ot,{})}param(t){return t?b(this,B,ce).call(this,t):b(this,B,de).call(this)}query(t){return De(this.url,t)}queries(t){return $e(this.url,t)}header(t){if(t)return this.raw.headers.get(t)??void 0;const e={};return this.raw.headers.forEach((s,a)=>{e[a]=s}),e}async parseBody(t){var e;return(e=this.bodyCache).parsedBody??(e.parsedBody=await je(this,t))}json(){return n(this,U).call(this,"text").then(t=>JSON.parse(t))}text(){return n(this,U).call(this,"text")}arrayBuffer(){return n(this,U).call(this,"arrayBuffer")}blob(){return n(this,U).call(this,"blob")}formData(){return n(this,U).call(this,"formData")}addValidatedData(t,e){n(this,ot)[t]=e}valid(t){return n(this,ot)[t]}get url(){return this.raw.url}get method(){return this.raw.method}get[ke](){return n(this,T)}get matchedRoutes(){return n(this,T)[0].map(([[,t]])=>t)}get routePath(){return n(this,T)[0].map(([[,t]])=>t)[this.routeIndex].path}},ot=new WeakMap,T=new WeakMap,B=new WeakSet,ce=function(t){const e=n(this,T)[0][this.routeIndex][1][t],s=b(this,B,Bt).call(this,e);return s&&/\%/.test(s)?Gt(s):s},de=function(){const t={},e=Object.keys(n(this,T)[0][this.routeIndex][1]);for(const s of e){const a=b(this,B,Bt).call(this,n(this,T)[0][this.routeIndex][1][s]);a!==void 0&&(t[s]=/\%/.test(a)?Gt(a):a)}return t},Bt=function(t){return n(this,T)[1]?n(this,T)[1][t]:t},U=new WeakMap,Jt),He={Stringify:1},xe=async(t,e,s,a,r)=>{typeof t=="object"&&!(t instanceof String)&&(t instanceof Promise||(t=t.toString()),t instanceof Promise&&(t=await t));const i=t.callbacks;return i!=null&&i.length?(r?r[0]+=t:r=[t],Promise.all(i.map(c=>c({phase:e,buffer:r,context:a}))).then(c=>Promise.all(c.filter(Boolean).map(o=>xe(o,e,!1,a,r))).then(()=>r[0]))):Promise.resolve(t)},Le="text/plain; charset=UTF-8",Lt=(t,e)=>({"Content-Type":t,...e}),vt=(t,e)=>new Response(t,e),Et,Ct,D,ct,$,R,kt,dt,xt,Y,jt,Rt,q,lt,Qt,Be=(Qt=class{constructor(t,e){g(this,q);g(this,Et);g(this,Ct);u(this,"env",{});g(this,D);u(this,"finalized",!1);u(this,"error");g(this,ct);g(this,$);g(this,R);g(this,kt);g(this,dt);g(this,xt);g(this,Y);g(this,jt);g(this,Rt);u(this,"render",(...t)=>(n(this,dt)??f(this,dt,e=>this.html(e)),n(this,dt).call(this,...t)));u(this,"setLayout",t=>f(this,kt,t));u(this,"getLayout",()=>n(this,kt));u(this,"setRenderer",t=>{f(this,dt,t)});u(this,"header",(t,e,s)=>{this.finalized&&f(this,R,vt(n(this,R).body,n(this,R)));const a=n(this,R)?n(this,R).headers:n(this,Y)??f(this,Y,new Headers);e===void 0?a.delete(t):s!=null&&s.append?a.append(t,e):a.set(t,e)});u(this,"status",t=>{f(this,ct,t)});u(this,"set",(t,e)=>{n(this,D)??f(this,D,new Map),n(this,D).set(t,e)});u(this,"get",t=>n(this,D)?n(this,D).get(t):void 0);u(this,"newResponse",(...t)=>b(this,q,lt).call(this,...t));u(this,"body",(t,e,s)=>b(this,q,lt).call(this,t,e,s));u(this,"text",(t,e,s)=>!n(this,Y)&&!n(this,ct)&&!e&&!s&&!this.finalized?new Response(t):b(this,q,lt).call(this,t,e,Lt(Le,s)));u(this,"json",(t,e,s)=>b(this,q,lt).call(this,JSON.stringify(t),e,Lt("application/json",s)));u(this,"html",(t,e,s)=>{const a=r=>b(this,q,lt).call(this,r,e,Lt("text/html; charset=UTF-8",s));return typeof t=="object"?xe(t,He.Stringify,!1,{}).then(a):a(t)});u(this,"redirect",(t,e)=>{const s=String(t);return this.header("Location",/[^\x00-\xFF]/.test(s)?encodeURI(s):s),this.newResponse(null,e??302)});u(this,"notFound",()=>(n(this,xt)??f(this,xt,()=>vt()),n(this,xt).call(this,this)));f(this,Et,t),e&&(f(this,$,e.executionCtx),this.env=e.env,f(this,xt,e.notFoundHandler),f(this,Rt,e.path),f(this,jt,e.matchResult))}get req(){return n(this,Ct)??f(this,Ct,new oe(n(this,Et),n(this,Rt),n(this,jt))),n(this,Ct)}get event(){if(n(this,$)&&"respondWith"in n(this,$))return n(this,$);throw Error("This context has no FetchEvent")}get executionCtx(){if(n(this,$))return n(this,$);throw Error("This context has no ExecutionContext")}get res(){return n(this,R)||f(this,R,vt(null,{headers:n(this,Y)??f(this,Y,new Headers)}))}set res(t){if(n(this,R)&&t){t=vt(t.body,t);for(const[e,s]of n(this,R).headers.entries())if(e!=="content-type")if(e==="set-cookie"){const a=n(this,R).headers.getSetCookie();t.headers.delete("set-cookie");for(const r of a)t.headers.append("set-cookie",r)}else t.headers.set(e,s)}f(this,R,t),this.finalized=!0}get var(){return n(this,D)?Object.fromEntries(n(this,D)):{}}},Et=new WeakMap,Ct=new WeakMap,D=new WeakMap,ct=new WeakMap,$=new WeakMap,R=new WeakMap,kt=new WeakMap,dt=new WeakMap,xt=new WeakMap,Y=new WeakMap,jt=new WeakMap,Rt=new WeakMap,q=new WeakSet,lt=function(t,e,s){const a=n(this,R)?new Headers(n(this,R).headers):n(this,Y)??new Headers;if(typeof e=="object"&&"headers"in e){const i=e.headers instanceof Headers?e.headers:new Headers(e.headers);for(const[l,c]of i)l.toLowerCase()==="set-cookie"?a.append(l,c):a.set(l,c)}if(s)for(const[i,l]of Object.entries(s))if(typeof l=="string")a.set(i,l);else{a.delete(i);for(const c of l)a.append(i,c)}const r=typeof e=="number"?e:(e==null?void 0:e.status)??n(this,ct);return vt(t,{status:r,headers:a})},Qt),w="ALL",Fe="all",Ue=["get","post","put","delete","options","patch"],he="Can not add a route since the matcher is already built.",fe=class extends Error{},qe="__COMPOSED_HANDLER",ze=t=>t.text("404 Not Found",404),Kt=(t,e)=>{if("getResponse"in t){const s=t.getResponse();return e.newResponse(s.body,s)}return console.error(t),e.text("Internal Server Error",500)},A,E,ue,P,K,St,At,ht,We=(ht=class{constructor(e={}){g(this,E);u(this,"get");u(this,"post");u(this,"put");u(this,"delete");u(this,"options");u(this,"patch");u(this,"all");u(this,"on");u(this,"use");u(this,"router");u(this,"getPath");u(this,"_basePath","/");g(this,A,"/");u(this,"routes",[]);g(this,P,ze);u(this,"errorHandler",Kt);u(this,"onError",e=>(this.errorHandler=e,this));u(this,"notFound",e=>(f(this,P,e),this));u(this,"fetch",(e,...s)=>b(this,E,At).call(this,e,s[1],s[0],e.method));u(this,"request",(e,s,a,r)=>e instanceof Request?this.fetch(s?new Request(e,s):e,a,r):(e=e.toString(),this.fetch(new Request(/^https?:\/\//.test(e)?e:`http://localhost${it("/",e)}`,s),a,r)));u(this,"fire",()=>{addEventListener("fetch",e=>{e.respondWith(b(this,E,At).call(this,e.request,e,void 0,e.request.method))})});[...Ue,Fe].forEach(i=>{this[i]=(l,...c)=>(typeof l=="string"?f(this,A,l):b(this,E,K).call(this,i,n(this,A),l),c.forEach(o=>{b(this,E,K).call(this,i,n(this,A),o)}),this)}),this.on=(i,l,...c)=>{for(const o of[l].flat()){f(this,A,o);for(const d of[i].flat())c.map(x=>{b(this,E,K).call(this,d.toUpperCase(),n(this,A),x)})}return this},this.use=(i,...l)=>(typeof i=="string"?f(this,A,i):(f(this,A,"*"),l.unshift(i)),l.forEach(c=>{b(this,E,K).call(this,w,n(this,A),c)}),this);const{strict:a,...r}=e;Object.assign(this,r),this.getPath=a??!0?e.getPath??re:Me}route(e,s){const a=this.basePath(e);return s.routes.map(r=>{var l;let i;s.errorHandler===Kt?i=r.handler:(i=async(c,o)=>(await Vt([],s.errorHandler)(c,()=>r.handler(c,o))).res,i[qe]=r.handler),b(l=a,E,K).call(l,r.method,r.path,i)}),this}basePath(e){const s=b(this,E,ue).call(this);return s._basePath=it(this._basePath,e),s}mount(e,s,a){let r,i;a&&(typeof a=="function"?i=a:(i=a.optionHandler,a.replaceRequest===!1?r=o=>o:r=a.replaceRequest));const l=i?o=>{const d=i(o);return Array.isArray(d)?d:[d]}:o=>{let d;try{d=o.executionCtx}catch{}return[o.env,d]};r||(r=(()=>{const o=it(this._basePath,e),d=o==="/"?0:o.length;return x=>{const h=new URL(x.url);return h.pathname=h.pathname.slice(d)||"/",new Request(h,x)}})());const c=async(o,d)=>{const x=await s(r(o.req.raw),...l(o));if(x)return x;await d()};return b(this,E,K).call(this,w,it(e,"*"),c),this}},A=new WeakMap,E=new WeakSet,ue=function(){const e=new ht({router:this.router,getPath:this.getPath});return e.errorHandler=this.errorHandler,f(e,P,n(this,P)),e.routes=this.routes,e},P=new WeakMap,K=function(e,s,a){e=e.toUpperCase(),s=it(this._basePath,s);const r={basePath:this._basePath,path:s,method:e,handler:a};this.router.add(e,s,[a,r]),this.routes.push(r)},St=function(e,s){if(e instanceof Error)return this.errorHandler(e,s);throw e},At=function(e,s,a,r){if(r==="HEAD")return(async()=>new Response(null,await b(this,E,At).call(this,e,s,a,"GET")))();const i=this.getPath(e,{env:a}),l=this.router.match(r,i),c=new Be(e,{path:i,matchResult:l,env:a,executionCtx:s,notFoundHandler:n(this,P)});if(l[0].length===1){let d;try{d=l[0][0][0][0](c,async()=>{c.res=await n(this,P).call(this,c)})}catch(x){return b(this,E,St).call(this,x,c)}return d instanceof Promise?d.then(x=>x||(c.finalized?c.res:n(this,P).call(this,c))).catch(x=>b(this,E,St).call(this,x,c)):d??n(this,P).call(this,c)}const o=Vt(l[0],this.errorHandler,n(this,P));return(async()=>{try{const d=await o(c);if(!d.finalized)throw new Error("Context is not finalized. Did you forget to return a Response object or `await next()`?");return d.res}catch(d){return b(this,E,St).call(this,d,c)}})()},ht),pe=[];function Ve(t,e){const s=this.buildAllMatchers(),a=((r,i)=>{const l=s[r]||s[w],c=l[2][i];if(c)return c;const o=i.match(l[0]);if(!o)return[[],pe];const d=o.indexOf("",1);return[l[1][d],o]});return this.match=a,a(t,e)}var Nt="[^/]+",yt=".*",wt="(?:|/.*)",nt=Symbol(),Ge=new Set(".\\+*[^]$()");function Ke(t,e){return t.length===1?e.length===1?t<e?-1:1:-1:e.length===1||t===yt||t===wt?1:e===yt||e===wt?-1:t===Nt?1:e===Nt?-1:t.length===e.length?t<e?-1:1:e.length-t.length}var J,Q,N,et,Xe=(et=class{constructor(){g(this,J);g(this,Q);g(this,N,Object.create(null))}insert(e,s,a,r,i){if(e.length===0){if(n(this,J)!==void 0)throw nt;if(i)return;f(this,J,s);return}const[l,...c]=e,o=l==="*"?c.length===0?["","",yt]:["","",Nt]:l==="/*"?["","",wt]:l.match(/^\:([^\{\}]+)(?:\{(.+)\})?$/);let d;if(o){const x=o[1];let h=o[2]||Nt;if(x&&o[2]&&(h===".*"||(h=h.replace(/^\((?!\?:)(?=[^)]+\)$)/,"(?:"),/\((?!\?:)/.test(h))))throw nt;if(d=n(this,N)[h],!d){if(Object.keys(n(this,N)).some(p=>p!==yt&&p!==wt))throw nt;if(i)return;d=n(this,N)[h]=new et,x!==""&&f(d,Q,r.varIndex++)}!i&&x!==""&&a.push([x,n(d,Q)])}else if(d=n(this,N)[l],!d){if(Object.keys(n(this,N)).some(x=>x.length>1&&x!==yt&&x!==wt))throw nt;if(i)return;d=n(this,N)[l]=new et}d.insert(c,s,a,r,i)}buildRegExpStr(){const s=Object.keys(n(this,N)).sort(Ke).map(a=>{const r=n(this,N)[a];return(typeof n(r,Q)=="number"?`(${a})@${n(r,Q)}`:Ge.has(a)?`\\${a}`:a)+r.buildRegExpStr()});return typeof n(this,J)=="number"&&s.unshift(`#${n(this,J)}`),s.length===0?"":s.length===1?s[0]:"(?:"+s.join("|")+")"}},J=new WeakMap,Q=new WeakMap,N=new WeakMap,et),It,Ot,Zt,Ye=(Zt=class{constructor(){g(this,It,{varIndex:0});g(this,Ot,new Xe)}insert(t,e,s){const a=[],r=[];for(let l=0;;){let c=!1;if(t=t.replace(/\{[^}]+\}/g,o=>{const d=`@\\${l}`;return r[l]=[d,o],l++,c=!0,d}),!c)break}const i=t.match(/(?::[^\/]+)|(?:\/\*$)|./g)||[];for(let l=r.length-1;l>=0;l--){const[c]=r[l];for(let o=i.length-1;o>=0;o--)if(i[o].indexOf(c)!==-1){i[o]=i[o].replace(c,r[l][1]);break}}return n(this,Ot).insert(i,e,a,n(this,It),s),a}buildRegExp(){let t=n(this,Ot).buildRegExpStr();if(t==="")return[/^$/,[],[]];let e=0;const s=[],a=[];return t=t.replace(/#(\d+)|@(\d+)|\.\*\$/g,(r,i,l)=>i!==void 0?(s[++e]=Number(i),"$()"):(l!==void 0&&(a[Number(l)]=++e),"")),[new RegExp(`^${t}`),s,a]}},It=new WeakMap,Ot=new WeakMap,Zt),Je=[/^$/,[],Object.create(null)],Pt=Object.create(null);function ge(t){return Pt[t]??(Pt[t]=new RegExp(t==="*"?"":`^${t.replace(/\/\*$|([.\\+*[^\]$()])/g,(e,s)=>s?`\\${s}`:"(?:|/.*)")}$`))}function Qe(){Pt=Object.create(null)}function Ze(t){var d;const e=new Ye,s=[];if(t.length===0)return Je;const a=t.map(x=>[!/\*|\/:/.test(x[0]),...x]).sort(([x,h],[p,v])=>x?1:p?-1:h.length-v.length),r=Object.create(null);for(let x=0,h=-1,p=a.length;x<p;x++){const[v,m,S]=a[x];v?r[m]=[S.map(([O])=>[O,Object.create(null)]),pe]:h++;let C;try{C=e.insert(m,h,v)}catch(O){throw O===nt?new fe(m):O}v||(s[h]=S.map(([O,y])=>{const _=Object.create(null);for(y-=1;y>=0;y--){const[pt,Mt]=C[y];_[pt]=Mt}return[O,_]}))}const[i,l,c]=e.buildRegExp();for(let x=0,h=s.length;x<h;x++)for(let p=0,v=s[x].length;p<v;p++){const m=(d=s[x][p])==null?void 0:d[1];if(!m)continue;const S=Object.keys(m);for(let C=0,O=S.length;C<O;C++)m[S[C]]=c[m[S[C]]]}const o=[];for(const x in l)o[x]=s[l[x]];return[i,o,r]}function rt(t,e){if(t){for(const s of Object.keys(t).sort((a,r)=>r.length-a.length))if(ge(s).test(e))return[...t[s]]}}var z,W,_t,be,te,ts=(te=class{constructor(){g(this,_t);u(this,"name","RegExpRouter");g(this,z);g(this,W);u(this,"match",Ve);f(this,z,{[w]:Object.create(null)}),f(this,W,{[w]:Object.create(null)})}add(t,e,s){var c;const a=n(this,z),r=n(this,W);if(!a||!r)throw new Error(he);a[t]||[a,r].forEach(o=>{o[t]=Object.create(null),Object.keys(o[w]).forEach(d=>{o[t][d]=[...o[w][d]]})}),e==="/*"&&(e="*");const i=(e.match(/\/:/g)||[]).length;if(/\*$/.test(e)){const o=ge(e);t===w?Object.keys(a).forEach(d=>{var x;(x=a[d])[e]||(x[e]=rt(a[d],e)||rt(a[w],e)||[])}):(c=a[t])[e]||(c[e]=rt(a[t],e)||rt(a[w],e)||[]),Object.keys(a).forEach(d=>{(t===w||t===d)&&Object.keys(a[d]).forEach(x=>{o.test(x)&&a[d][x].push([s,i])})}),Object.keys(r).forEach(d=>{(t===w||t===d)&&Object.keys(r[d]).forEach(x=>o.test(x)&&r[d][x].push([s,i]))});return}const l=ie(e)||[e];for(let o=0,d=l.length;o<d;o++){const x=l[o];Object.keys(r).forEach(h=>{var p;(t===w||t===h)&&((p=r[h])[x]||(p[x]=[...rt(a[h],x)||rt(a[w],x)||[]]),r[h][x].push([s,i-d+o+1]))})}}buildAllMatchers(){const t=Object.create(null);return Object.keys(n(this,W)).concat(Object.keys(n(this,z))).forEach(e=>{t[e]||(t[e]=b(this,_t,be).call(this,e))}),f(this,z,f(this,W,void 0)),Qe(),t}},z=new WeakMap,W=new WeakMap,_t=new WeakSet,be=function(t){const e=[];let s=t===w;return[n(this,z),n(this,W)].forEach(a=>{const r=a[t]?Object.keys(a[t]).map(i=>[i,a[t][i]]):[];r.length!==0?(s||(s=!0),e.push(...r)):t!==w&&e.push(...Object.keys(a[w]).map(i=>[i,a[w][i]]))}),s?Ze(e):null},te),V,H,ee,es=(ee=class{constructor(t){u(this,"name","SmartRouter");g(this,V,[]);g(this,H,[]);f(this,V,t.routers)}add(t,e,s){if(!n(this,H))throw new Error(he);n(this,H).push([t,e,s])}match(t,e){if(!n(this,H))throw new Error("Fatal error");const s=n(this,V),a=n(this,H),r=s.length;let i=0,l;for(;i<r;i++){const c=s[i];try{for(let o=0,d=a.length;o<d;o++)c.add(...a[o]);l=c.match(t,e)}catch(o){if(o instanceof fe)continue;throw o}this.match=c.match.bind(c),f(this,V,[c]),f(this,H,void 0);break}if(i===r)throw new Error("Fatal error");return this.name=`SmartRouter + ${this.activeRouter.name}`,l}get activeRouter(){if(n(this,H)||n(this,V).length!==1)throw new Error("No active router has been determined yet.");return n(this,V)[0]}},V=new WeakMap,H=new WeakMap,ee),mt=Object.create(null),ss=t=>{for(const e in t)return!0;return!1},G,j,Z,ft,k,L,X,ut,as=(ut=class{constructor(e,s,a){g(this,L);g(this,G);g(this,j);g(this,Z);g(this,ft,0);g(this,k,mt);if(f(this,j,a||Object.create(null)),f(this,G,[]),e&&s){const r=Object.create(null);r[e]={handler:s,possibleKeys:[],score:0},f(this,G,[r])}f(this,Z,[])}insert(e,s,a){f(this,ft,++Wt(this,ft)._);let r=this;const i=Ae(s),l=[];for(let c=0,o=i.length;c<o;c++){const d=i[c],x=i[c+1],h=Ie(d,x),p=Array.isArray(h)?h[0]:d;if(p in n(r,j)){r=n(r,j)[p],h&&l.push(h[1]);continue}n(r,j)[p]=new ut,h&&(n(r,Z).push(h),l.push(h[1])),r=n(r,j)[p]}return n(r,G).push({[e]:{handler:a,possibleKeys:l.filter((c,o,d)=>d.indexOf(c)===o),score:n(this,ft)}}),r}search(e,s){var x;const a=[];f(this,k,mt);let i=[this];const l=ae(s),c=[],o=l.length;let d=null;for(let h=0;h<o;h++){const p=l[h],v=h===o-1,m=[];for(let C=0,O=i.length;C<O;C++){const y=i[C],_=n(y,j)[p];_&&(f(_,k,n(y,k)),v?(n(_,j)["*"]&&b(this,L,X).call(this,a,n(_,j)["*"],e,n(y,k)),b(this,L,X).call(this,a,_,e,n(y,k))):m.push(_));for(let pt=0,Mt=n(y,Z).length;pt<Mt;pt++){const Ut=n(y,Z)[pt],F=n(y,k)===mt?{}:{...n(y,k)};if(Ut==="*"){const st=n(y,j)["*"];st&&(b(this,L,X).call(this,a,st,e,n(y,k)),f(st,k,F),m.push(st));continue}const[we,qt,gt]=Ut;if(!p&&!(gt instanceof RegExp))continue;const M=n(y,j)[we];if(gt instanceof RegExp){if(d===null){d=new Array(o);let at=s[0]==="/"?1:0;for(let bt=0;bt<o;bt++)d[bt]=at,at+=l[bt].length+1}const st=s.substring(d[h]),Dt=gt.exec(st);if(Dt){if(F[qt]=Dt[0],b(this,L,X).call(this,a,M,e,n(y,k),F),ss(n(M,j))){f(M,k,F);const at=((x=Dt[0].match(/\//))==null?void 0:x.length)??0;(c[at]||(c[at]=[])).push(M)}continue}}(gt===!0||gt.test(p))&&(F[qt]=p,v?(b(this,L,X).call(this,a,M,e,F,n(y,k)),n(M,j)["*"]&&b(this,L,X).call(this,a,n(M,j)["*"],e,F,n(y,k))):(f(M,k,F),m.push(M)))}}const S=c.shift();i=S?m.concat(S):m}return a.length>1&&a.sort((h,p)=>h.score-p.score),[a.map(({handler:h,params:p})=>[h,p])]}},G=new WeakMap,j=new WeakMap,Z=new WeakMap,ft=new WeakMap,k=new WeakMap,L=new WeakSet,X=function(e,s,a,r,i){for(let l=0,c=n(s,G).length;l<c;l++){const o=n(s,G)[l],d=o[a]||o[w],x={};if(d!==void 0&&(d.params=Object.create(null),e.push(d),r!==mt||i&&i!==mt))for(let h=0,p=d.possibleKeys.length;h<p;h++){const v=d.possibleKeys[h],m=x[d.score];d.params[v]=i!=null&&i[v]&&!m?i[v]:r[v]??(i==null?void 0:i[v]),x[d.score]=!0}}},ut),tt,se,rs=(se=class{constructor(){u(this,"name","TrieRouter");g(this,tt);f(this,tt,new as)}add(t,e,s){const a=ie(e);if(a){for(let r=0,i=a.length;r<i;r++)n(this,tt).insert(t,a[r],s);return}n(this,tt).insert(t,e,s)}match(t,e){return n(this,tt).search(t,e)}},tt=new WeakMap,se),ve=class extends We{constructor(t={}){super(t),this.router=t.router??new es({routers:[new ts,new rs]})}},is=t=>{const s={...{origin:"*",allowMethods:["GET","HEAD","PUT","POST","DELETE","PATCH"],allowHeaders:[],exposeHeaders:[]},...t},a=(i=>typeof i=="string"?i==="*"?()=>i:l=>i===l?l:null:typeof i=="function"?i:l=>i.includes(l)?l:null)(s.origin),r=(i=>typeof i=="function"?i:Array.isArray(i)?()=>i:()=>[])(s.allowMethods);return async function(l,c){var x;function o(h,p){l.res.headers.set(h,p)}const d=await a(l.req.header("origin")||"",l);if(d&&o("Access-Control-Allow-Origin",d),s.credentials&&o("Access-Control-Allow-Credentials","true"),(x=s.exposeHeaders)!=null&&x.length&&o("Access-Control-Expose-Headers",s.exposeHeaders.join(",")),l.req.method==="OPTIONS"){s.origin!=="*"&&o("Vary","Origin"),s.maxAge!=null&&o("Access-Control-Max-Age",s.maxAge.toString());const h=await r(l.req.header("origin")||"",l);h.length&&o("Access-Control-Allow-Methods",h.join(","));let p=s.allowHeaders;if(!(p!=null&&p.length)){const v=l.req.header("Access-Control-Request-Headers");v&&(p=v.split(/\s*,\s*/))}return p!=null&&p.length&&(o("Access-Control-Allow-Headers",p.join(",")),l.res.headers.append("Vary","Access-Control-Request-Headers")),l.res.headers.delete("Content-Length"),l.res.headers.delete("Content-Type"),new Response(null,{headers:l.res.headers,status:204,statusText:"No Content"})}await c(),s.origin!=="*"&&l.header("Vary","Origin",{append:!0})}},ls=/^\s*(?:text\/(?!event-stream(?:[;\s]|$))[^;\s]+|application\/(?:javascript|json|xml|xml-dtd|ecmascript|dart|postscript|rtf|tar|toml|vnd\.dart|vnd\.ms-fontobject|vnd\.ms-opentype|wasm|x-httpd-php|x-javascript|x-ns-proxy-autoconfig|x-sh|x-tar|x-virtualbox-hdd|x-virtualbox-ova|x-virtualbox-ovf|x-virtualbox-vbox|x-virtualbox-vdi|x-virtualbox-vhd|x-virtualbox-vmdk|x-www-form-urlencoded)|font\/(?:otf|ttf)|image\/(?:bmp|vnd\.adobe\.photoshop|vnd\.microsoft\.icon|vnd\.ms-dds|x-icon|x-ms-bmp)|message\/rfc822|model\/gltf-binary|x-shader\/x-fragment|x-shader\/x-vertex|[^;\s]+?\+(?:json|text|xml|yaml))(?:[;\s]|$)/i,Xt=(t,e=os)=>{const s=/\.([a-zA-Z0-9]+?)$/,a=t.match(s);if(!a)return;let r=e[a[1]];return r&&r.startsWith("text")&&(r+="; charset=utf-8"),r},ns={aac:"audio/aac",avi:"video/x-msvideo",avif:"image/avif",av1:"video/av1",bin:"application/octet-stream",bmp:"image/bmp",css:"text/css",csv:"text/csv",eot:"application/vnd.ms-fontobject",epub:"application/epub+zip",gif:"image/gif",gz:"application/gzip",htm:"text/html",html:"text/html",ico:"image/x-icon",ics:"text/calendar",jpeg:"image/jpeg",jpg:"image/jpeg",js:"text/javascript",json:"application/json",jsonld:"application/ld+json",map:"application/json",mid:"audio/x-midi",midi:"audio/x-midi",mjs:"text/javascript",mp3:"audio/mpeg",mp4:"video/mp4",mpeg:"video/mpeg",oga:"audio/ogg",ogv:"video/ogg",ogx:"application/ogg",opus:"audio/opus",otf:"font/otf",pdf:"application/pdf",png:"image/png",rtf:"application/rtf",svg:"image/svg+xml",tif:"image/tiff",tiff:"image/tiff",ts:"video/mp2t",ttf:"font/ttf",txt:"text/plain",wasm:"application/wasm",webm:"video/webm",weba:"audio/webm",webmanifest:"application/manifest+json",webp:"image/webp",woff:"font/woff",woff2:"font/woff2",xhtml:"application/xhtml+xml",xml:"application/xml",zip:"application/zip","3gp":"video/3gpp","3g2":"video/3gpp2",gltf:"model/gltf+json",glb:"model/gltf-binary"},os=ns,cs=(...t)=>{let e=t.filter(r=>r!=="").join("/");e=e.replace(new RegExp("(?<=\\/)\\/+","g"),"");const s=e.split("/"),a=[];for(const r of s)r===".."&&a.length>0&&a.at(-1)!==".."?a.pop():r!=="."&&a.push(r);return a.join("/")||"."},me={br:".br",zstd:".zst",gzip:".gz"},ds=Object.keys(me),xs="index.html",hs=t=>{const e=t.root??"./",s=t.path,a=t.join??cs;return async(r,i)=>{var x,h,p,v;if(r.finalized)return i();let l;if(t.path)l=t.path;else try{if(l=decodeURIComponent(r.req.path),/(?:^|[\/\\])\.\.(?:$|[\/\\])/.test(l))throw new Error}catch{return await((x=t.onNotFound)==null?void 0:x.call(t,r.req.path,r)),i()}let c=a(e,!s&&t.rewriteRequestPath?t.rewriteRequestPath(l):l);t.isDir&&await t.isDir(c)&&(c=a(c,xs));const o=t.getContent;let d=await o(c,r);if(d instanceof Response)return r.newResponse(d.body,d);if(d){const m=t.mimes&&Xt(c,t.mimes)||Xt(c);if(r.header("Content-Type",m||"application/octet-stream"),t.precompressed&&(!m||ls.test(m))){const S=new Set((h=r.req.header("Accept-Encoding"))==null?void 0:h.split(",").map(C=>C.trim()));for(const C of ds){if(!S.has(C))continue;const O=await o(c+me[C],r);if(O){d=O,r.header("Content-Encoding",C),r.header("Vary","Accept-Encoding",{append:!0});break}}}return await((p=t.onFound)==null?void 0:p.call(t,c,r)),r.body(d)}await((v=t.onNotFound)==null?void 0:v.call(t,c,r)),await i()}},fs=async(t,e)=>{let s;e&&e.manifest?typeof e.manifest=="string"?s=JSON.parse(e.manifest):s=e.manifest:typeof __STATIC_CONTENT_MANIFEST=="string"?s=JSON.parse(__STATIC_CONTENT_MANIFEST):s=__STATIC_CONTENT_MANIFEST;let a;e&&e.namespace?a=e.namespace:a=__STATIC_CONTENT;const r=s[t];if(!r)return null;const i=await a.get(r,{type:"stream"});return i||null},us=t=>async function(s,a){return hs({...t,getContent:async i=>fs(i,{manifest:t.manifest,namespace:t.namespace?t.namespace:s.env?s.env.__STATIC_CONTENT:void 0})})(s,a)},ps=t=>us(t);const I=new ve;I.use("/api/*",is());I.use("/static/*",ps({root:"./public"}));I.post("/api/contact",async t=>{try{const{name:e,phone:s,wechat:a,hotelName:r,message:i}=await t.req.json(),{env:l}=t,c=t.req.header("cf-connecting-ip")||t.req.header("x-forwarded-for")||"unknown",o=t.req.header("user-agent")||"unknown",d=await l.DB.prepare(`
+var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var Ce=(t,e,s)=>e in t?Ee(t,e,{enumerable:!0,configurable:!0,writable:!0,value:s}):t[e]=s;var p=(t,e,s)=>Ce(t,typeof e!="symbol"?e+"":e,s),$t=(t,e,s)=>e.has(t)||zt("Cannot "+s);var n=(t,e,s)=>($t(t,e,"read from private field"),s?s.call(t):e.get(t)),g=(t,e,s)=>e.has(t)?zt("Cannot add the same private member more than once"):e instanceof WeakSet?e.add(t):e.set(t,s),h=(t,e,s,a)=>($t(t,e,"write to private field"),a?a.call(t,s):e.set(t,s),s),v=(t,e,s)=>($t(t,e,"access private method"),s);var Wt=(t,e,s,a)=>({set _(r){h(t,e,r,s)},get _(){return n(t,e,a)}});var Vt=(t,e,s)=>(a,r)=>{let i=-1;return l(0);async function l(c){if(c<=i)throw new Error("next() called multiple times");i=c;let o,d=!1,x;if(t[c]?(x=t[c][0][0],a.req.routeIndex=c):x=c===t.length&&r||void 0,x)try{o=await x(a,()=>l(c+1))}catch(f){if(f instanceof Error&&e)a.error=f,o=await e(f,a),d=!0;else throw f}else a.finalized===!1&&s&&(o=await s(a));return o&&(a.finalized===!1||d)&&(a.res=o),a}},je=Symbol(),ke=async(t,e=Object.create(null))=>{const{all:s=!1,dot:a=!1}=e,i=(t instanceof oe?t.raw.headers:t.headers).get("Content-Type");return i!=null&&i.startsWith("multipart/form-data")||i!=null&&i.startsWith("application/x-www-form-urlencoded")?Re(t,{all:s,dot:a}):{}};async function Re(t,e){const s=await t.formData();return s?Oe(s,e):{}}function Oe(t,e){const s=Object.create(null);return t.forEach((a,r)=>{e.all||r.endsWith("[]")?Te(s,r,a):s[r]=a}),e.dot&&Object.entries(s).forEach(([a,r])=>{a.includes(".")&&(Se(s,a,r),delete s[a])}),s}var Te=(t,e,s)=>{t[e]!==void 0?Array.isArray(t[e])?t[e].push(s):t[e]=[t[e],s]:e.endsWith("[]")?t[e]=[s]:t[e]=s},Se=(t,e,s)=>{let a=t;const r=e.split(".");r.forEach((i,l)=>{l===r.length-1?a[i]=s:((!a[i]||typeof a[i]!="object"||Array.isArray(a[i])||a[i]instanceof File)&&(a[i]=Object.create(null)),a=a[i])})},ae=t=>{const e=t.split("/");return e[0]===""&&e.shift(),e},Ae=t=>{const{groups:e,path:s}=Pe(t),a=ae(s);return Ne(a,e)},Pe=t=>{const e=[];return t=t.replace(/\{[^}]+\}/g,(s,a)=>{const r=`@${a}`;return e.push([r,s]),r}),{groups:e,path:t}},Ne=(t,e)=>{for(let s=e.length-1;s>=0;s--){const[a]=e[s];for(let r=t.length-1;r>=0;r--)if(t[r].includes(a)){t[r]=t[r].replace(a,e[s][1]);break}}return t},Tt={},Ie=(t,e)=>{if(t==="*")return"*";const s=t.match(/^\:([^\{\}]+)(?:\{(.+)\})?$/);if(s){const a=`${t}#${e}`;return Tt[a]||(s[2]?Tt[a]=e&&e[0]!==":"&&e[0]!=="*"?[a,s[1],new RegExp(`^${s[2]}(?=/${e})`)]:[t,s[1],new RegExp(`^${s[2]}$`)]:Tt[a]=[t,s[1],!0]),Tt[a]}return null},Ft=(t,e)=>{try{return e(t)}catch{return t.replace(/(?:%[0-9A-Fa-f]{2})+/g,s=>{try{return e(s)}catch{return s}})}},_e=t=>Ft(t,decodeURI),re=t=>{const e=t.url,s=e.indexOf("/",e.indexOf(":")+4);let a=s;for(;a<e.length;a++){const r=e.charCodeAt(a);if(r===37){const i=e.indexOf("?",a),l=e.indexOf("#",a),c=i===-1?l===-1?void 0:l:l===-1?i:Math.min(i,l),o=e.slice(s,c);return _e(o.includes("%25")?o.replace(/%25/g,"%2525"):o)}else if(r===63||r===35)break}return e.slice(s,a)},Me=t=>{const e=re(t);return e.length>1&&e.at(-1)==="/"?e.slice(0,-1):e},it=(t,e,...s)=>(s.length&&(e=it(e,...s)),`${(t==null?void 0:t[0])==="/"?"":"/"}${t}${e==="/"?"":`${(t==null?void 0:t.at(-1))==="/"?"":"/"}${(e==null?void 0:e[0])==="/"?e.slice(1):e}`}`),ie=t=>{if(t.charCodeAt(t.length-1)!==63||!t.includes(":"))return null;const e=t.split("/"),s=[];let a="";return e.forEach(r=>{if(r!==""&&!/\:/.test(r))a+="/"+r;else if(/\:/.test(r))if(/\?/.test(r)){s.length===0&&a===""?s.push("/"):s.push(a);const i=r.replace("?","");a+="/"+i,s.push(a)}else a+="/"+r}),s.filter((r,i,l)=>l.indexOf(r)===i)},Ht=t=>/[%+]/.test(t)?(t.indexOf("+")!==-1&&(t=t.replace(/\+/g," ")),t.indexOf("%")!==-1?Ft(t,ne):t):t,le=(t,e,s)=>{let a;if(!s&&e&&!/[%+]/.test(e)){let l=t.indexOf("?",8);if(l===-1)return;for(t.startsWith(e,l+1)||(l=t.indexOf(`&${e}`,l+1));l!==-1;){const c=t.charCodeAt(l+e.length+1);if(c===61){const o=l+e.length+2,d=t.indexOf("&",o);return Ht(t.slice(o,d===-1?void 0:d))}else if(c==38||isNaN(c))return"";l=t.indexOf(`&${e}`,l+1)}if(a=/[%+]/.test(t),!a)return}const r={};a??(a=/[%+]/.test(t));let i=t.indexOf("?",8);for(;i!==-1;){const l=t.indexOf("&",i+1);let c=t.indexOf("=",i);c>l&&l!==-1&&(c=-1);let o=t.slice(i+1,c===-1?l===-1?void 0:l:c);if(a&&(o=Ht(o)),i=l,o==="")continue;let d;c===-1?d="":(d=t.slice(c+1,l===-1?void 0:l),a&&(d=Ht(d))),s?(r[o]&&Array.isArray(r[o])||(r[o]=[]),r[o].push(d)):r[o]??(r[o]=d)}return e?r[e]:r},De=le,$e=(t,e)=>le(t,e,!0),ne=decodeURIComponent,Kt=t=>Ft(t,ne),ot,T,B,ce,de,Bt,U,Jt,oe=(Jt=class{constructor(t,e="/",s=[[]]){g(this,B);p(this,"raw");g(this,ot);g(this,T);p(this,"routeIndex",0);p(this,"path");p(this,"bodyCache",{});g(this,U,t=>{const{bodyCache:e,raw:s}=this,a=e[t];if(a)return a;const r=Object.keys(e)[0];return r?e[r].then(i=>(r==="json"&&(i=JSON.stringify(i)),new Response(i)[t]())):e[t]=s[t]()});this.raw=t,this.path=e,h(this,T,s),h(this,ot,{})}param(t){return t?v(this,B,ce).call(this,t):v(this,B,de).call(this)}query(t){return De(this.url,t)}queries(t){return $e(this.url,t)}header(t){if(t)return this.raw.headers.get(t)??void 0;const e={};return this.raw.headers.forEach((s,a)=>{e[a]=s}),e}async parseBody(t){var e;return(e=this.bodyCache).parsedBody??(e.parsedBody=await ke(this,t))}json(){return n(this,U).call(this,"text").then(t=>JSON.parse(t))}text(){return n(this,U).call(this,"text")}arrayBuffer(){return n(this,U).call(this,"arrayBuffer")}blob(){return n(this,U).call(this,"blob")}formData(){return n(this,U).call(this,"formData")}addValidatedData(t,e){n(this,ot)[t]=e}valid(t){return n(this,ot)[t]}get url(){return this.raw.url}get method(){return this.raw.method}get[je](){return n(this,T)}get matchedRoutes(){return n(this,T)[0].map(([[,t]])=>t)}get routePath(){return n(this,T)[0].map(([[,t]])=>t)[this.routeIndex].path}},ot=new WeakMap,T=new WeakMap,B=new WeakSet,ce=function(t){const e=n(this,T)[0][this.routeIndex][1][t],s=v(this,B,Bt).call(this,e);return s&&/\%/.test(s)?Kt(s):s},de=function(){const t={},e=Object.keys(n(this,T)[0][this.routeIndex][1]);for(const s of e){const a=v(this,B,Bt).call(this,n(this,T)[0][this.routeIndex][1][s]);a!==void 0&&(t[s]=/\%/.test(a)?Kt(a):a)}return t},Bt=function(t){return n(this,T)[1]?n(this,T)[1][t]:t},U=new WeakMap,Jt),He={Stringify:1},xe=async(t,e,s,a,r)=>{typeof t=="object"&&!(t instanceof String)&&(t instanceof Promise||(t=t.toString()),t instanceof Promise&&(t=await t));const i=t.callbacks;return i!=null&&i.length?(r?r[0]+=t:r=[t],Promise.all(i.map(c=>c({phase:e,buffer:r,context:a}))).then(c=>Promise.all(c.filter(Boolean).map(o=>xe(o,e,!1,a,r))).then(()=>r[0]))):Promise.resolve(t)},Le="text/plain; charset=UTF-8",Lt=(t,e)=>({"Content-Type":t,...e}),bt=(t,e)=>new Response(t,e),Et,Ct,D,ct,$,R,jt,dt,xt,Y,kt,Rt,q,lt,Qt,Be=(Qt=class{constructor(t,e){g(this,q);g(this,Et);g(this,Ct);p(this,"env",{});g(this,D);p(this,"finalized",!1);p(this,"error");g(this,ct);g(this,$);g(this,R);g(this,jt);g(this,dt);g(this,xt);g(this,Y);g(this,kt);g(this,Rt);p(this,"render",(...t)=>(n(this,dt)??h(this,dt,e=>this.html(e)),n(this,dt).call(this,...t)));p(this,"setLayout",t=>h(this,jt,t));p(this,"getLayout",()=>n(this,jt));p(this,"setRenderer",t=>{h(this,dt,t)});p(this,"header",(t,e,s)=>{this.finalized&&h(this,R,bt(n(this,R).body,n(this,R)));const a=n(this,R)?n(this,R).headers:n(this,Y)??h(this,Y,new Headers);e===void 0?a.delete(t):s!=null&&s.append?a.append(t,e):a.set(t,e)});p(this,"status",t=>{h(this,ct,t)});p(this,"set",(t,e)=>{n(this,D)??h(this,D,new Map),n(this,D).set(t,e)});p(this,"get",t=>n(this,D)?n(this,D).get(t):void 0);p(this,"newResponse",(...t)=>v(this,q,lt).call(this,...t));p(this,"body",(t,e,s)=>v(this,q,lt).call(this,t,e,s));p(this,"text",(t,e,s)=>!n(this,Y)&&!n(this,ct)&&!e&&!s&&!this.finalized?new Response(t):v(this,q,lt).call(this,t,e,Lt(Le,s)));p(this,"json",(t,e,s)=>v(this,q,lt).call(this,JSON.stringify(t),e,Lt("application/json",s)));p(this,"html",(t,e,s)=>{const a=r=>v(this,q,lt).call(this,r,e,Lt("text/html; charset=UTF-8",s));return typeof t=="object"?xe(t,He.Stringify,!1,{}).then(a):a(t)});p(this,"redirect",(t,e)=>{const s=String(t);return this.header("Location",/[^\x00-\xFF]/.test(s)?encodeURI(s):s),this.newResponse(null,e??302)});p(this,"notFound",()=>(n(this,xt)??h(this,xt,()=>bt()),n(this,xt).call(this,this)));h(this,Et,t),e&&(h(this,$,e.executionCtx),this.env=e.env,h(this,xt,e.notFoundHandler),h(this,Rt,e.path),h(this,kt,e.matchResult))}get req(){return n(this,Ct)??h(this,Ct,new oe(n(this,Et),n(this,Rt),n(this,kt))),n(this,Ct)}get event(){if(n(this,$)&&"respondWith"in n(this,$))return n(this,$);throw Error("This context has no FetchEvent")}get executionCtx(){if(n(this,$))return n(this,$);throw Error("This context has no ExecutionContext")}get res(){return n(this,R)||h(this,R,bt(null,{headers:n(this,Y)??h(this,Y,new Headers)}))}set res(t){if(n(this,R)&&t){t=bt(t.body,t);for(const[e,s]of n(this,R).headers.entries())if(e!=="content-type")if(e==="set-cookie"){const a=n(this,R).headers.getSetCookie();t.headers.delete("set-cookie");for(const r of a)t.headers.append("set-cookie",r)}else t.headers.set(e,s)}h(this,R,t),this.finalized=!0}get var(){return n(this,D)?Object.fromEntries(n(this,D)):{}}},Et=new WeakMap,Ct=new WeakMap,D=new WeakMap,ct=new WeakMap,$=new WeakMap,R=new WeakMap,jt=new WeakMap,dt=new WeakMap,xt=new WeakMap,Y=new WeakMap,kt=new WeakMap,Rt=new WeakMap,q=new WeakSet,lt=function(t,e,s){const a=n(this,R)?new Headers(n(this,R).headers):n(this,Y)??new Headers;if(typeof e=="object"&&"headers"in e){const i=e.headers instanceof Headers?e.headers:new Headers(e.headers);for(const[l,c]of i)l.toLowerCase()==="set-cookie"?a.append(l,c):a.set(l,c)}if(s)for(const[i,l]of Object.entries(s))if(typeof l=="string")a.set(i,l);else{a.delete(i);for(const c of l)a.append(i,c)}const r=typeof e=="number"?e:(e==null?void 0:e.status)??n(this,ct);return bt(t,{status:r,headers:a})},Qt),w="ALL",Fe="all",Ue=["get","post","put","delete","options","patch"],fe="Can not add a route since the matcher is already built.",he=class extends Error{},qe="__COMPOSED_HANDLER",ze=t=>t.text("404 Not Found",404),Gt=(t,e)=>{if("getResponse"in t){const s=t.getResponse();return e.newResponse(s.body,s)}return console.error(t),e.text("Internal Server Error",500)},A,E,pe,P,G,St,At,ft,We=(ft=class{constructor(e={}){g(this,E);p(this,"get");p(this,"post");p(this,"put");p(this,"delete");p(this,"options");p(this,"patch");p(this,"all");p(this,"on");p(this,"use");p(this,"router");p(this,"getPath");p(this,"_basePath","/");g(this,A,"/");p(this,"routes",[]);g(this,P,ze);p(this,"errorHandler",Gt);p(this,"onError",e=>(this.errorHandler=e,this));p(this,"notFound",e=>(h(this,P,e),this));p(this,"fetch",(e,...s)=>v(this,E,At).call(this,e,s[1],s[0],e.method));p(this,"request",(e,s,a,r)=>e instanceof Request?this.fetch(s?new Request(e,s):e,a,r):(e=e.toString(),this.fetch(new Request(/^https?:\/\//.test(e)?e:`http://localhost${it("/",e)}`,s),a,r)));p(this,"fire",()=>{addEventListener("fetch",e=>{e.respondWith(v(this,E,At).call(this,e.request,e,void 0,e.request.method))})});[...Ue,Fe].forEach(i=>{this[i]=(l,...c)=>(typeof l=="string"?h(this,A,l):v(this,E,G).call(this,i,n(this,A),l),c.forEach(o=>{v(this,E,G).call(this,i,n(this,A),o)}),this)}),this.on=(i,l,...c)=>{for(const o of[l].flat()){h(this,A,o);for(const d of[i].flat())c.map(x=>{v(this,E,G).call(this,d.toUpperCase(),n(this,A),x)})}return this},this.use=(i,...l)=>(typeof i=="string"?h(this,A,i):(h(this,A,"*"),l.unshift(i)),l.forEach(c=>{v(this,E,G).call(this,w,n(this,A),c)}),this);const{strict:a,...r}=e;Object.assign(this,r),this.getPath=a??!0?e.getPath??re:Me}route(e,s){const a=this.basePath(e);return s.routes.map(r=>{var l;let i;s.errorHandler===Gt?i=r.handler:(i=async(c,o)=>(await Vt([],s.errorHandler)(c,()=>r.handler(c,o))).res,i[qe]=r.handler),v(l=a,E,G).call(l,r.method,r.path,i)}),this}basePath(e){const s=v(this,E,pe).call(this);return s._basePath=it(this._basePath,e),s}mount(e,s,a){let r,i;a&&(typeof a=="function"?i=a:(i=a.optionHandler,a.replaceRequest===!1?r=o=>o:r=a.replaceRequest));const l=i?o=>{const d=i(o);return Array.isArray(d)?d:[d]}:o=>{let d;try{d=o.executionCtx}catch{}return[o.env,d]};r||(r=(()=>{const o=it(this._basePath,e),d=o==="/"?0:o.length;return x=>{const f=new URL(x.url);return f.pathname=f.pathname.slice(d)||"/",new Request(f,x)}})());const c=async(o,d)=>{const x=await s(r(o.req.raw),...l(o));if(x)return x;await d()};return v(this,E,G).call(this,w,it(e,"*"),c),this}},A=new WeakMap,E=new WeakSet,pe=function(){const e=new ft({router:this.router,getPath:this.getPath});return e.errorHandler=this.errorHandler,h(e,P,n(this,P)),e.routes=this.routes,e},P=new WeakMap,G=function(e,s,a){e=e.toUpperCase(),s=it(this._basePath,s);const r={basePath:this._basePath,path:s,method:e,handler:a};this.router.add(e,s,[a,r]),this.routes.push(r)},St=function(e,s){if(e instanceof Error)return this.errorHandler(e,s);throw e},At=function(e,s,a,r){if(r==="HEAD")return(async()=>new Response(null,await v(this,E,At).call(this,e,s,a,"GET")))();const i=this.getPath(e,{env:a}),l=this.router.match(r,i),c=new Be(e,{path:i,matchResult:l,env:a,executionCtx:s,notFoundHandler:n(this,P)});if(l[0].length===1){let d;try{d=l[0][0][0][0](c,async()=>{c.res=await n(this,P).call(this,c)})}catch(x){return v(this,E,St).call(this,x,c)}return d instanceof Promise?d.then(x=>x||(c.finalized?c.res:n(this,P).call(this,c))).catch(x=>v(this,E,St).call(this,x,c)):d??n(this,P).call(this,c)}const o=Vt(l[0],this.errorHandler,n(this,P));return(async()=>{try{const d=await o(c);if(!d.finalized)throw new Error("Context is not finalized. Did you forget to return a Response object or `await next()`?");return d.res}catch(d){return v(this,E,St).call(this,d,c)}})()},ft),ue=[];function Ve(t,e){const s=this.buildAllMatchers(),a=((r,i)=>{const l=s[r]||s[w],c=l[2][i];if(c)return c;const o=i.match(l[0]);if(!o)return[[],ue];const d=o.indexOf("",1);return[l[1][d],o]});return this.match=a,a(t,e)}var Nt="[^/]+",yt=".*",wt="(?:|/.*)",nt=Symbol(),Ke=new Set(".\\+*[^]$()");function Ge(t,e){return t.length===1?e.length===1?t<e?-1:1:-1:e.length===1||t===yt||t===wt?1:e===yt||e===wt?-1:t===Nt?1:e===Nt?-1:t.length===e.length?t<e?-1:1:e.length-t.length}var J,Q,N,et,Xe=(et=class{constructor(){g(this,J);g(this,Q);g(this,N,Object.create(null))}insert(e,s,a,r,i){if(e.length===0){if(n(this,J)!==void 0)throw nt;if(i)return;h(this,J,s);return}const[l,...c]=e,o=l==="*"?c.length===0?["","",yt]:["","",Nt]:l==="/*"?["","",wt]:l.match(/^\:([^\{\}]+)(?:\{(.+)\})?$/);let d;if(o){const x=o[1];let f=o[2]||Nt;if(x&&o[2]&&(f===".*"||(f=f.replace(/^\((?!\?:)(?=[^)]+\)$)/,"(?:"),/\((?!\?:)/.test(f))))throw nt;if(d=n(this,N)[f],!d){if(Object.keys(n(this,N)).some(u=>u!==yt&&u!==wt))throw nt;if(i)return;d=n(this,N)[f]=new et,x!==""&&h(d,Q,r.varIndex++)}!i&&x!==""&&a.push([x,n(d,Q)])}else if(d=n(this,N)[l],!d){if(Object.keys(n(this,N)).some(x=>x.length>1&&x!==yt&&x!==wt))throw nt;if(i)return;d=n(this,N)[l]=new et}d.insert(c,s,a,r,i)}buildRegExpStr(){const s=Object.keys(n(this,N)).sort(Ge).map(a=>{const r=n(this,N)[a];return(typeof n(r,Q)=="number"?`(${a})@${n(r,Q)}`:Ke.has(a)?`\\${a}`:a)+r.buildRegExpStr()});return typeof n(this,J)=="number"&&s.unshift(`#${n(this,J)}`),s.length===0?"":s.length===1?s[0]:"(?:"+s.join("|")+")"}},J=new WeakMap,Q=new WeakMap,N=new WeakMap,et),It,Ot,Zt,Ye=(Zt=class{constructor(){g(this,It,{varIndex:0});g(this,Ot,new Xe)}insert(t,e,s){const a=[],r=[];for(let l=0;;){let c=!1;if(t=t.replace(/\{[^}]+\}/g,o=>{const d=`@\\${l}`;return r[l]=[d,o],l++,c=!0,d}),!c)break}const i=t.match(/(?::[^\/]+)|(?:\/\*$)|./g)||[];for(let l=r.length-1;l>=0;l--){const[c]=r[l];for(let o=i.length-1;o>=0;o--)if(i[o].indexOf(c)!==-1){i[o]=i[o].replace(c,r[l][1]);break}}return n(this,Ot).insert(i,e,a,n(this,It),s),a}buildRegExp(){let t=n(this,Ot).buildRegExpStr();if(t==="")return[/^$/,[],[]];let e=0;const s=[],a=[];return t=t.replace(/#(\d+)|@(\d+)|\.\*\$/g,(r,i,l)=>i!==void 0?(s[++e]=Number(i),"$()"):(l!==void 0&&(a[Number(l)]=++e),"")),[new RegExp(`^${t}`),s,a]}},It=new WeakMap,Ot=new WeakMap,Zt),Je=[/^$/,[],Object.create(null)],Pt=Object.create(null);function ge(t){return Pt[t]??(Pt[t]=new RegExp(t==="*"?"":`^${t.replace(/\/\*$|([.\\+*[^\]$()])/g,(e,s)=>s?`\\${s}`:"(?:|/.*)")}$`))}function Qe(){Pt=Object.create(null)}function Ze(t){var d;const e=new Ye,s=[];if(t.length===0)return Je;const a=t.map(x=>[!/\*|\/:/.test(x[0]),...x]).sort(([x,f],[u,b])=>x?1:u?-1:f.length-b.length),r=Object.create(null);for(let x=0,f=-1,u=a.length;x<u;x++){const[b,m,S]=a[x];b?r[m]=[S.map(([O])=>[O,Object.create(null)]),ue]:f++;let C;try{C=e.insert(m,f,b)}catch(O){throw O===nt?new he(m):O}b||(s[f]=S.map(([O,y])=>{const _=Object.create(null);for(y-=1;y>=0;y--){const[ut,Mt]=C[y];_[ut]=Mt}return[O,_]}))}const[i,l,c]=e.buildRegExp();for(let x=0,f=s.length;x<f;x++)for(let u=0,b=s[x].length;u<b;u++){const m=(d=s[x][u])==null?void 0:d[1];if(!m)continue;const S=Object.keys(m);for(let C=0,O=S.length;C<O;C++)m[S[C]]=c[m[S[C]]]}const o=[];for(const x in l)o[x]=s[l[x]];return[i,o,r]}function rt(t,e){if(t){for(const s of Object.keys(t).sort((a,r)=>r.length-a.length))if(ge(s).test(e))return[...t[s]]}}var z,W,_t,ve,te,ts=(te=class{constructor(){g(this,_t);p(this,"name","RegExpRouter");g(this,z);g(this,W);p(this,"match",Ve);h(this,z,{[w]:Object.create(null)}),h(this,W,{[w]:Object.create(null)})}add(t,e,s){var c;const a=n(this,z),r=n(this,W);if(!a||!r)throw new Error(fe);a[t]||[a,r].forEach(o=>{o[t]=Object.create(null),Object.keys(o[w]).forEach(d=>{o[t][d]=[...o[w][d]]})}),e==="/*"&&(e="*");const i=(e.match(/\/:/g)||[]).length;if(/\*$/.test(e)){const o=ge(e);t===w?Object.keys(a).forEach(d=>{var x;(x=a[d])[e]||(x[e]=rt(a[d],e)||rt(a[w],e)||[])}):(c=a[t])[e]||(c[e]=rt(a[t],e)||rt(a[w],e)||[]),Object.keys(a).forEach(d=>{(t===w||t===d)&&Object.keys(a[d]).forEach(x=>{o.test(x)&&a[d][x].push([s,i])})}),Object.keys(r).forEach(d=>{(t===w||t===d)&&Object.keys(r[d]).forEach(x=>o.test(x)&&r[d][x].push([s,i]))});return}const l=ie(e)||[e];for(let o=0,d=l.length;o<d;o++){const x=l[o];Object.keys(r).forEach(f=>{var u;(t===w||t===f)&&((u=r[f])[x]||(u[x]=[...rt(a[f],x)||rt(a[w],x)||[]]),r[f][x].push([s,i-d+o+1]))})}}buildAllMatchers(){const t=Object.create(null);return Object.keys(n(this,W)).concat(Object.keys(n(this,z))).forEach(e=>{t[e]||(t[e]=v(this,_t,ve).call(this,e))}),h(this,z,h(this,W,void 0)),Qe(),t}},z=new WeakMap,W=new WeakMap,_t=new WeakSet,ve=function(t){const e=[];let s=t===w;return[n(this,z),n(this,W)].forEach(a=>{const r=a[t]?Object.keys(a[t]).map(i=>[i,a[t][i]]):[];r.length!==0?(s||(s=!0),e.push(...r)):t!==w&&e.push(...Object.keys(a[w]).map(i=>[i,a[w][i]]))}),s?Ze(e):null},te),V,H,ee,es=(ee=class{constructor(t){p(this,"name","SmartRouter");g(this,V,[]);g(this,H,[]);h(this,V,t.routers)}add(t,e,s){if(!n(this,H))throw new Error(fe);n(this,H).push([t,e,s])}match(t,e){if(!n(this,H))throw new Error("Fatal error");const s=n(this,V),a=n(this,H),r=s.length;let i=0,l;for(;i<r;i++){const c=s[i];try{for(let o=0,d=a.length;o<d;o++)c.add(...a[o]);l=c.match(t,e)}catch(o){if(o instanceof he)continue;throw o}this.match=c.match.bind(c),h(this,V,[c]),h(this,H,void 0);break}if(i===r)throw new Error("Fatal error");return this.name=`SmartRouter + ${this.activeRouter.name}`,l}get activeRouter(){if(n(this,H)||n(this,V).length!==1)throw new Error("No active router has been determined yet.");return n(this,V)[0]}},V=new WeakMap,H=new WeakMap,ee),mt=Object.create(null),ss=t=>{for(const e in t)return!0;return!1},K,k,Z,ht,j,L,X,pt,as=(pt=class{constructor(e,s,a){g(this,L);g(this,K);g(this,k);g(this,Z);g(this,ht,0);g(this,j,mt);if(h(this,k,a||Object.create(null)),h(this,K,[]),e&&s){const r=Object.create(null);r[e]={handler:s,possibleKeys:[],score:0},h(this,K,[r])}h(this,Z,[])}insert(e,s,a){h(this,ht,++Wt(this,ht)._);let r=this;const i=Ae(s),l=[];for(let c=0,o=i.length;c<o;c++){const d=i[c],x=i[c+1],f=Ie(d,x),u=Array.isArray(f)?f[0]:d;if(u in n(r,k)){r=n(r,k)[u],f&&l.push(f[1]);continue}n(r,k)[u]=new pt,f&&(n(r,Z).push(f),l.push(f[1])),r=n(r,k)[u]}return n(r,K).push({[e]:{handler:a,possibleKeys:l.filter((c,o,d)=>d.indexOf(c)===o),score:n(this,ht)}}),r}search(e,s){var x;const a=[];h(this,j,mt);let i=[this];const l=ae(s),c=[],o=l.length;let d=null;for(let f=0;f<o;f++){const u=l[f],b=f===o-1,m=[];for(let C=0,O=i.length;C<O;C++){const y=i[C],_=n(y,k)[u];_&&(h(_,j,n(y,j)),b?(n(_,k)["*"]&&v(this,L,X).call(this,a,n(_,k)["*"],e,n(y,j)),v(this,L,X).call(this,a,_,e,n(y,j))):m.push(_));for(let ut=0,Mt=n(y,Z).length;ut<Mt;ut++){const Ut=n(y,Z)[ut],F=n(y,j)===mt?{}:{...n(y,j)};if(Ut==="*"){const st=n(y,k)["*"];st&&(v(this,L,X).call(this,a,st,e,n(y,j)),h(st,j,F),m.push(st));continue}const[we,qt,gt]=Ut;if(!u&&!(gt instanceof RegExp))continue;const M=n(y,k)[we];if(gt instanceof RegExp){if(d===null){d=new Array(o);let at=s[0]==="/"?1:0;for(let vt=0;vt<o;vt++)d[vt]=at,at+=l[vt].length+1}const st=s.substring(d[f]),Dt=gt.exec(st);if(Dt){if(F[qt]=Dt[0],v(this,L,X).call(this,a,M,e,n(y,j),F),ss(n(M,k))){h(M,j,F);const at=((x=Dt[0].match(/\//))==null?void 0:x.length)??0;(c[at]||(c[at]=[])).push(M)}continue}}(gt===!0||gt.test(u))&&(F[qt]=u,b?(v(this,L,X).call(this,a,M,e,F,n(y,j)),n(M,k)["*"]&&v(this,L,X).call(this,a,n(M,k)["*"],e,F,n(y,j))):(h(M,j,F),m.push(M)))}}const S=c.shift();i=S?m.concat(S):m}return a.length>1&&a.sort((f,u)=>f.score-u.score),[a.map(({handler:f,params:u})=>[f,u])]}},K=new WeakMap,k=new WeakMap,Z=new WeakMap,ht=new WeakMap,j=new WeakMap,L=new WeakSet,X=function(e,s,a,r,i){for(let l=0,c=n(s,K).length;l<c;l++){const o=n(s,K)[l],d=o[a]||o[w],x={};if(d!==void 0&&(d.params=Object.create(null),e.push(d),r!==mt||i&&i!==mt))for(let f=0,u=d.possibleKeys.length;f<u;f++){const b=d.possibleKeys[f],m=x[d.score];d.params[b]=i!=null&&i[b]&&!m?i[b]:r[b]??(i==null?void 0:i[b]),x[d.score]=!0}}},pt),tt,se,rs=(se=class{constructor(){p(this,"name","TrieRouter");g(this,tt);h(this,tt,new as)}add(t,e,s){const a=ie(e);if(a){for(let r=0,i=a.length;r<i;r++)n(this,tt).insert(t,a[r],s);return}n(this,tt).insert(t,e,s)}match(t,e){return n(this,tt).search(t,e)}},tt=new WeakMap,se),be=class extends We{constructor(t={}){super(t),this.router=t.router??new es({routers:[new ts,new rs]})}},is=t=>{const s={...{origin:"*",allowMethods:["GET","HEAD","PUT","POST","DELETE","PATCH"],allowHeaders:[],exposeHeaders:[]},...t},a=(i=>typeof i=="string"?i==="*"?()=>i:l=>i===l?l:null:typeof i=="function"?i:l=>i.includes(l)?l:null)(s.origin),r=(i=>typeof i=="function"?i:Array.isArray(i)?()=>i:()=>[])(s.allowMethods);return async function(l,c){var x;function o(f,u){l.res.headers.set(f,u)}const d=await a(l.req.header("origin")||"",l);if(d&&o("Access-Control-Allow-Origin",d),s.credentials&&o("Access-Control-Allow-Credentials","true"),(x=s.exposeHeaders)!=null&&x.length&&o("Access-Control-Expose-Headers",s.exposeHeaders.join(",")),l.req.method==="OPTIONS"){s.origin!=="*"&&o("Vary","Origin"),s.maxAge!=null&&o("Access-Control-Max-Age",s.maxAge.toString());const f=await r(l.req.header("origin")||"",l);f.length&&o("Access-Control-Allow-Methods",f.join(","));let u=s.allowHeaders;if(!(u!=null&&u.length)){const b=l.req.header("Access-Control-Request-Headers");b&&(u=b.split(/\s*,\s*/))}return u!=null&&u.length&&(o("Access-Control-Allow-Headers",u.join(",")),l.res.headers.append("Vary","Access-Control-Request-Headers")),l.res.headers.delete("Content-Length"),l.res.headers.delete("Content-Type"),new Response(null,{headers:l.res.headers,status:204,statusText:"No Content"})}await c(),s.origin!=="*"&&l.header("Vary","Origin",{append:!0})}},ls=/^\s*(?:text\/(?!event-stream(?:[;\s]|$))[^;\s]+|application\/(?:javascript|json|xml|xml-dtd|ecmascript|dart|postscript|rtf|tar|toml|vnd\.dart|vnd\.ms-fontobject|vnd\.ms-opentype|wasm|x-httpd-php|x-javascript|x-ns-proxy-autoconfig|x-sh|x-tar|x-virtualbox-hdd|x-virtualbox-ova|x-virtualbox-ovf|x-virtualbox-vbox|x-virtualbox-vdi|x-virtualbox-vhd|x-virtualbox-vmdk|x-www-form-urlencoded)|font\/(?:otf|ttf)|image\/(?:bmp|vnd\.adobe\.photoshop|vnd\.microsoft\.icon|vnd\.ms-dds|x-icon|x-ms-bmp)|message\/rfc822|model\/gltf-binary|x-shader\/x-fragment|x-shader\/x-vertex|[^;\s]+?\+(?:json|text|xml|yaml))(?:[;\s]|$)/i,Xt=(t,e=os)=>{const s=/\.([a-zA-Z0-9]+?)$/,a=t.match(s);if(!a)return;let r=e[a[1]];return r&&r.startsWith("text")&&(r+="; charset=utf-8"),r},ns={aac:"audio/aac",avi:"video/x-msvideo",avif:"image/avif",av1:"video/av1",bin:"application/octet-stream",bmp:"image/bmp",css:"text/css",csv:"text/csv",eot:"application/vnd.ms-fontobject",epub:"application/epub+zip",gif:"image/gif",gz:"application/gzip",htm:"text/html",html:"text/html",ico:"image/x-icon",ics:"text/calendar",jpeg:"image/jpeg",jpg:"image/jpeg",js:"text/javascript",json:"application/json",jsonld:"application/ld+json",map:"application/json",mid:"audio/x-midi",midi:"audio/x-midi",mjs:"text/javascript",mp3:"audio/mpeg",mp4:"video/mp4",mpeg:"video/mpeg",oga:"audio/ogg",ogv:"video/ogg",ogx:"application/ogg",opus:"audio/opus",otf:"font/otf",pdf:"application/pdf",png:"image/png",rtf:"application/rtf",svg:"image/svg+xml",tif:"image/tiff",tiff:"image/tiff",ts:"video/mp2t",ttf:"font/ttf",txt:"text/plain",wasm:"application/wasm",webm:"video/webm",weba:"audio/webm",webmanifest:"application/manifest+json",webp:"image/webp",woff:"font/woff",woff2:"font/woff2",xhtml:"application/xhtml+xml",xml:"application/xml",zip:"application/zip","3gp":"video/3gpp","3g2":"video/3gpp2",gltf:"model/gltf+json",glb:"model/gltf-binary"},os=ns,cs=(...t)=>{let e=t.filter(r=>r!=="").join("/");e=e.replace(new RegExp("(?<=\\/)\\/+","g"),"");const s=e.split("/"),a=[];for(const r of s)r===".."&&a.length>0&&a.at(-1)!==".."?a.pop():r!=="."&&a.push(r);return a.join("/")||"."},me={br:".br",zstd:".zst",gzip:".gz"},ds=Object.keys(me),xs="index.html",fs=t=>{const e=t.root??"./",s=t.path,a=t.join??cs;return async(r,i)=>{var x,f,u,b;if(r.finalized)return i();let l;if(t.path)l=t.path;else try{if(l=decodeURIComponent(r.req.path),/(?:^|[\/\\])\.\.(?:$|[\/\\])/.test(l))throw new Error}catch{return await((x=t.onNotFound)==null?void 0:x.call(t,r.req.path,r)),i()}let c=a(e,!s&&t.rewriteRequestPath?t.rewriteRequestPath(l):l);t.isDir&&await t.isDir(c)&&(c=a(c,xs));const o=t.getContent;let d=await o(c,r);if(d instanceof Response)return r.newResponse(d.body,d);if(d){const m=t.mimes&&Xt(c,t.mimes)||Xt(c);if(r.header("Content-Type",m||"application/octet-stream"),t.precompressed&&(!m||ls.test(m))){const S=new Set((f=r.req.header("Accept-Encoding"))==null?void 0:f.split(",").map(C=>C.trim()));for(const C of ds){if(!S.has(C))continue;const O=await o(c+me[C],r);if(O){d=O,r.header("Content-Encoding",C),r.header("Vary","Accept-Encoding",{append:!0});break}}}return await((u=t.onFound)==null?void 0:u.call(t,c,r)),r.body(d)}await((b=t.onNotFound)==null?void 0:b.call(t,c,r)),await i()}},hs=async(t,e)=>{let s;e&&e.manifest?typeof e.manifest=="string"?s=JSON.parse(e.manifest):s=e.manifest:typeof __STATIC_CONTENT_MANIFEST=="string"?s=JSON.parse(__STATIC_CONTENT_MANIFEST):s=__STATIC_CONTENT_MANIFEST;let a;e&&e.namespace?a=e.namespace:a=__STATIC_CONTENT;const r=s[t];if(!r)return null;const i=await a.get(r,{type:"stream"});return i||null},ps=t=>async function(s,a){return fs({...t,getContent:async i=>hs(i,{manifest:t.manifest,namespace:t.namespace?t.namespace:s.env?s.env.__STATIC_CONTENT:void 0})})(s,a)},us=t=>ps(t);const I=new be;I.use("/api/*",is());I.use("/static/*",us({root:"./public"}));I.post("/api/contact",async t=>{try{const{name:e,phone:s,wechat:a,hotelName:r,message:i}=await t.req.json(),{env:l}=t,c=t.req.header("cf-connecting-ip")||t.req.header("x-forwarded-for")||"unknown",o=t.req.header("user-agent")||"unknown",d=await l.DB.prepare(`
       INSERT INTO contacts (name, phone, wechat, hotel_name, message, ip_address, user_agent)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `).bind(e,s,a||null,r||null,i||null,c,o).run();return console.log("新咨询已保存到数据库:",{id:d.meta.last_row_id,name:e,phone:s,hotel_name:r}),t.json({success:!0,message:"感谢您的咨询，我们会尽快与您联系！",id:d.meta.last_row_id})}catch(e){return console.error("保存咨询失败:",e),t.json({success:!1,message:"提交失败，请稍后再试"},500)}});I.get("/api/contacts",async t=>{try{const{env:e}=t,{results:s}=await e.DB.prepare(`
@@ -600,7 +600,7 @@ var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var Ce=(t,e,s)=>e in
                     <!-- Pain Point 2 -->
                     <div class="bg-white rounded-xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition group">
                         <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-esports-red transition">
-                            <i class="fas fa-chart-line-down text-2xl text-orange-500 group-hover:text-white transition"></i>
+                            <i class="fas fa-chart-line text-2xl text-orange-500 group-hover:text-white transition" style="transform: rotate(180deg);"></i>
                         </div>
                         <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-4">营收持续下滑</h3>
                         <p class="text-gray-600 leading-relaxed">
@@ -758,186 +758,314 @@ var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var Ce=(t,e,s)=>e in
                         <i class="fas fa-layer-group mr-2"></i>改造方案
                     </div>
                     <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">
-                        三种方案，满足不同需求
+                        三款实战方案，适配不同区域
                     </h2>
                     <p class="text-lg lg:text-xl text-gray-600">
-                        根据您的预算和定位，灵活选择最适合的改造方案
+                        存量商旅酒店改造中高端电竞房，预期入住率85%，回本周期2.5-10年
                     </p>
                 </div>
                 
                 <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-                    <!-- Plan 1: 经济型 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 text-white text-center">
-                            <h3 class="text-2xl font-black mb-2">经济型电竞房</h3>
-                            <p class="text-green-100 text-sm">快速回本，适合大批量改造</p>
-                            <div class="mt-6">
-                                <div class="text-4xl font-black">¥2.5-3.5万</div>
-                                <div class="text-green-100 text-sm mt-1">单间改造成本</div>
-                            </div>
-                        </div>
-                        
-                        <div class="p-6 lg:p-8">
-                            <div class="mb-6">
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">投资回报</span>
-                                    <span class="font-bold text-green-600">3-4个月回本</span>
-                                </div>
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">建议房价</span>
-                                    <span class="font-bold text-tech-blue">¥280-380/晚</span>
-                                </div>
-                            </div>
-                            
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">中高端游戏主机（RTX 3060级）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">27英寸电竞显示器（144Hz）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">电竞外设（键鼠耳机）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">简约电竞主题装修</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">RGB氛围灯光</span>
-                                </li>
-                            </ul>
-                            
-                            <a href="#contact" class="block w-full bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">
-                                获取详细方案
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Plan 2: 高端型 (推荐) -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-2xl relative transform scale-105">
-                        <div class="absolute top-0 right-0 bg-esports-red text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
-                            最受欢迎
+                    <!-- Plan 1: 核心商圈旗舰版 - 投资最高80万，回本最快4-5个月 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 relative flex flex-col">
+                        <div class="absolute top-4 right-4 bg-esports-red text-white px-3 py-1 text-xs font-bold rounded-full">
+                            推荐
                         </div>
                         <div class="bg-gradient-to-br from-tech-blue to-tech-blue-light p-6 text-white text-center">
-                            <h3 class="text-2xl font-black mb-2">高端电竞房</h3>
-                            <p class="text-blue-100 text-sm">性价比最优，强烈推荐</p>
+                            <h3 class="text-2xl font-black mb-2">核心商圈旗舰版</h3>
+                            <p class="text-blue-100 text-sm">中高端定位，快速回本</p>
                             <div class="mt-6">
-                                <div class="text-4xl font-black">¥4.5-6万</div>
-                                <div class="text-blue-100 text-sm mt-1">单间改造成本</div>
+                                <div class="text-4xl font-black">¥80万</div>
+                                <div class="text-blue-100 text-sm mt-1">总改造成本 | 30间房</div>
                             </div>
                         </div>
                         
-                        <div class="p-6 lg:p-8">
+                        <div class="p-6 lg:p-8 flex-1 flex flex-col">
                             <div class="mb-6">
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">投资回报</span>
-                                    <span class="font-bold text-esports-red">4-6个月回本</span>
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">改造规模</span>
+                                        <span class="font-bold text-tech-blue">1-2层，30间</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">均价定位</span>
+                                        <span class="font-bold text-tech-blue">¥360/晚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-700">投资回报</span>
+                                        <span class="font-bold text-esports-red">4-5个月回本</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">建议房价</span>
-                                    <span class="font-bold text-tech-blue">¥450-650/晚</span>
+                                
+                                <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-4">
+                                    <div class="text-sm text-gray-700 mb-2"><strong>财务预期：</strong></div>
+                                    <div class="text-sm text-gray-600 space-y-1">
+                                        <div>• 年营业额：约300万</div>
+                                        <div>• 年利润：约220万</div>
+                                        <div>• 业主投入：80万</div>
+                                        <div>• 入住率：85%</div>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">旗舰级游戏主机（RTX 4070级）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">32英寸曲面电竞屏（240Hz）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">专业电竞座椅</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">高端外设全套（机械键盘等）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">精致电竞主题装修设计</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">智能灯光音响系统</span>
-                                </li>
-                            </ul>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-900 mb-3">房型配置：</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-tech-blue mr-2 mt-1"></i>
+                                        <span class="text-gray-700">单人间 30%（RTX5060）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-tech-blue mr-2 mt-1"></i>
+                                        <span class="text-gray-700">大床房 50%（双RTX5060Ti/5070）核心</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-tech-blue mr-2 mt-1"></i>
+                                        <span class="text-gray-700">双床房 20%（双RTX5070）溢价</span>
+                                    </li>
+                                </ul>
+                            </div>
                             
-                            <a href="#contact" class="block w-full bg-tech-blue hover:bg-tech-blue-dark text-white text-center py-3 rounded-lg font-bold transition">
-                                获取详细方案
-                            </a>
+                            <div class="mb-6 text-sm text-gray-600">
+                                <div class="font-semibold mb-1">预算构成：</div>
+                                <div>电竞设备60万（75%）+ 软装店招弱电千兆宽带等20万</div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="#contact" class="block w-full bg-tech-blue hover:bg-tech-blue-dark text-white text-center py-3 rounded-lg font-bold transition">
+                                    获取详细方案
+                                </a>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Plan 3: 豪华套房 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <div class="bg-gradient-to-br from-purple-600 to-purple-700 p-6 text-white text-center">
-                            <h3 class="text-2xl font-black mb-2">电竞主题套房</h3>
-                            <p class="text-purple-100 text-sm">顶级配置，打造旗舰店</p>
+                    <!-- Plan 2: 城市开发区版 - 投资中等60万，回本中等8个月 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 flex flex-col">
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 text-white text-center">
+                            <h3 class="text-2xl font-black mb-2">城市开发区版</h3>
+                            <p class="text-green-100 text-sm">中等规模，稳健运营</p>
                             <div class="mt-6">
-                                <div class="text-4xl font-black">¥8-12万</div>
-                                <div class="text-purple-100 text-sm mt-1">单间改造成本</div>
+                                <div class="text-4xl font-black">¥60万</div>
+                                <div class="text-green-100 text-sm mt-1">总改造成本 | 20间房</div>
                             </div>
                         </div>
                         
-                        <div class="p-6 lg:p-8">
+                        <div class="p-6 lg:p-8 flex-1 flex flex-col">
                             <div class="mb-6">
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">投资回报</span>
-                                    <span class="font-bold text-purple-600">5-8个月回本</span>
+                                <div class="bg-green-50 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">改造规模</span>
+                                        <span class="font-bold text-green-600">1-2层，20间</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">均价定位</span>
+                                        <span class="font-bold text-green-600">¥270/晚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-700">投资回报</span>
+                                        <span class="font-bold text-esports-red">8个月回本</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">建议房价</span>
-                                    <span class="font-bold text-tech-blue">¥800-1500/晚</span>
+                                
+                                <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-4">
+                                    <div class="text-sm text-gray-700 mb-2"><strong>财务预期：</strong></div>
+                                    <div class="text-sm text-gray-600 space-y-1">
+                                        <div>• 年营业额：约150万</div>
+                                        <div>• 年利润：约90万</div>
+                                        <div>• 总投入：60万</div>
+                                        <div>• 入住率：85%</div>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">发烧级主机（RTX 4080+）双机位</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">多屏电竞显示器阵列</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">顶级电竞外设套装</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">沉浸式主题场景设计</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">智能家居全套系统</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">专业影音娱乐系统</span>
-                                </li>
-                            </ul>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-900 mb-3">配置亮点：</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">RTX5060及以上显卡</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">2K高刷显示器</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">千兆宽带机房</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">复用原运营团队</span>
+                                    </li>
+                                </ul>
+                            </div>
                             
-                            <a href="#contact" class="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-3 rounded-lg font-bold transition">
-                                获取详细方案
-                            </a>
+                            <div class="mb-6 text-sm text-gray-600">
+                                <div class="font-semibold mb-1">预算构成：</div>
+                                <div>电竞设备40万（67%）+ 软装店招机房弱电等20万</div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="#contact" class="block w-full bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">
+                                    获取详细方案
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Plan 3: 产城融合区商圈版 - 投资最低50万，回本最慢11个月 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 flex flex-col">
+                        <div class="bg-gradient-to-br from-purple-600 to-purple-700 p-6 text-white text-center">
+                            <h3 class="text-2xl font-black mb-2">产城融合区商圈版</h3>
+                            <p class="text-purple-100 text-sm">高性价比，分期扩展</p>
+                            <div class="mt-6">
+                                <div class="text-4xl font-black">¥50万</div>
+                                <div class="text-purple-100 text-sm mt-1">首期成本 | 20间（规划34间）</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 lg:p-8 flex-1 flex flex-col">
+                            <div class="mb-6">
+                                <div class="bg-purple-50 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">改造规模</span>
+                                        <span class="font-bold text-purple-600">首期20间</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">均价定位</span>
+                                        <span class="font-bold text-purple-600">¥200/晚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-700">投资回报</span>
+                                        <span class="font-bold text-orange-600">11个月回本</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 mb-4">
+                                    <div class="text-sm text-gray-700 mb-2"><strong>财务预期：</strong></div>
+                                    <div class="text-sm text-gray-600 space-y-1">
+                                        <div>• 年营业额：约110万</div>
+                                        <div>• 年利润：约60万</div>
+                                        <div>• 总投入：50万</div>
+                                        <div>• 入住率：85%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-900 mb-3">房型配置：</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-600 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">单电脑大床房 30%（RTX5060Ti）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-600 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">双电脑房 60%（双RTX5070）核心</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-600 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">3-4人间 10%（多RTX5070）溢价</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-6 text-sm text-gray-600">
+                                <div class="font-semibold mb-1">预算构成：</div>
+                                <div>电竞设备30万（60%）+ 软装店招机房弱电等20万</div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="#contact" class="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-3 rounded-lg font-bold transition">
+                                    获取详细方案
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mt-12 text-center">
-                    <p class="text-gray-600 mb-4">不确定选择哪种方案？</p>
+                <!-- 通用改造核心提示 -->
+                <div class="mt-12 bg-white rounded-xl p-6 lg:p-8 shadow-lg">
+                    <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-6 text-center">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        通用改造核心提示
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">选址与规模：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-esports-red mr-2 mt-1"></i>
+                                    <span>电竞消费集中且中高端空白区域</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-building text-esports-red mr-2 mt-1"></i>
+                                    <span>改造1-2独立楼层（20-30间）</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-users text-esports-red mr-2 mt-1"></i>
+                                    <span>复用原有运营团队</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">硬件与定价：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-desktop text-esports-red mr-2 mt-1"></i>
+                                    <span>RTX5060及以上显卡 + 2K高刷显示器</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-percentage text-esports-red mr-2 mt-1"></i>
+                                    <span>电竞设备占总预算75%+</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-money-bill-wave text-esports-red mr-2 mt-1"></i>
+                                    <span>按区域定价200-350元/晚</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">房型策略：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-bed text-esports-red mr-2 mt-1"></i>
+                                    <span>双人电竞房为核心（占比50%+）</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-chart-pie text-esports-red mr-2 mt-1"></i>
+                                    <span>搭配单人入门款和多人溢价款</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-esports-red mr-2 mt-1"></i>
+                                    <span>预期入住率85%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">运营支持：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-globe text-esports-red mr-2 mt-1"></i>
+                                    <span>入驻主流OTA + 电竞垂直平台</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-handshake text-esports-red mr-2 mt-1"></i>
+                                    <span>品牌运营赋能费按客房收入4.5%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-tools text-esports-red mr-2 mt-1"></i>
+                                    <span>全程托管式服务</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <p class="text-gray-600 mb-4">想了解更详细的改造方案和投资分析？</p>
                     <a href="#contact" class="inline-block bg-esports-red hover:bg-esports-red-dark text-white px-8 py-3 rounded-lg font-bold transition">
-                        <i class="fas fa-phone-alt mr-2"></i>联系我们免费上门勘察评估
+                        <i class="fas fa-phone-alt mr-2"></i>免费上门勘察评估
                     </a>
                 </div>
             </div>
@@ -1485,4 +1613,4 @@ var Ee=Object.defineProperty;var zt=t=>{throw TypeError(t)};var Ce=(t,e,s)=>e in
         <script src="/static/app.js"><\/script>
     </body>
     </html>
-  `));const Yt=new ve,gs=Object.assign({"/src/index.tsx":I});let ye=!1;for(const[,t]of Object.entries(gs))t&&(Yt.all("*",e=>{let s;try{s=e.executionCtx}catch{}return t.fetch(e.req.raw,e.env,s)}),Yt.notFound(e=>{let s;try{s=e.executionCtx}catch{}return t.fetch(e.req.raw,e.env,s)}),ye=!0);if(!ye)throw new Error("Can't import modules from ['/src/index.ts','/src/index.tsx','/app/server.ts']");export{Yt as default};
+  `));const Yt=new be,gs=Object.assign({"/src/index.tsx":I});let ye=!1;for(const[,t]of Object.entries(gs))t&&(Yt.all("*",e=>{let s;try{s=e.executionCtx}catch{}return t.fetch(e.req.raw,e.env,s)}),Yt.notFound(e=>{let s;try{s=e.executionCtx}catch{}return t.fetch(e.req.raw,e.env,s)}),ye=!0);if(!ye)throw new Error("Can't import modules from ['/src/index.ts','/src/index.tsx','/app/server.ts']");export{Yt as default};

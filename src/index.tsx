@@ -755,7 +755,7 @@ app.get('/', (c) => {
                     <!-- Pain Point 2 -->
                     <div class="bg-white rounded-xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition group">
                         <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6 group-hover:bg-esports-red transition">
-                            <i class="fas fa-chart-line-down text-2xl text-orange-500 group-hover:text-white transition"></i>
+                            <i class="fas fa-chart-line text-2xl text-orange-500 group-hover:text-white transition" style="transform: rotate(180deg);"></i>
                         </div>
                         <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-4">营收持续下滑</h3>
                         <p class="text-gray-600 leading-relaxed">
@@ -913,186 +913,314 @@ app.get('/', (c) => {
                         <i class="fas fa-layer-group mr-2"></i>改造方案
                     </div>
                     <h2 class="text-3xl lg:text-4xl font-black text-gray-900 mb-4">
-                        三种方案，满足不同需求
+                        三款实战方案，适配不同区域
                     </h2>
                     <p class="text-lg lg:text-xl text-gray-600">
-                        根据您的预算和定位，灵活选择最适合的改造方案
+                        存量商旅酒店改造中高端电竞房，预期入住率85%，回本周期2.5-10年
                     </p>
                 </div>
                 
                 <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-                    <!-- Plan 1: 经济型 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 text-white text-center">
-                            <h3 class="text-2xl font-black mb-2">经济型电竞房</h3>
-                            <p class="text-green-100 text-sm">快速回本，适合大批量改造</p>
-                            <div class="mt-6">
-                                <div class="text-4xl font-black">¥2.5-3.5万</div>
-                                <div class="text-green-100 text-sm mt-1">单间改造成本</div>
-                            </div>
-                        </div>
-                        
-                        <div class="p-6 lg:p-8">
-                            <div class="mb-6">
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">投资回报</span>
-                                    <span class="font-bold text-green-600">3-4个月回本</span>
-                                </div>
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">建议房价</span>
-                                    <span class="font-bold text-tech-blue">¥280-380/晚</span>
-                                </div>
-                            </div>
-                            
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">中高端游戏主机（RTX 3060级）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">27英寸电竞显示器（144Hz）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">电竞外设（键鼠耳机）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">简约电竞主题装修</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">RGB氛围灯光</span>
-                                </li>
-                            </ul>
-                            
-                            <a href="#contact" class="block w-full bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">
-                                获取详细方案
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Plan 2: 高端型 (推荐) -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-2xl relative transform scale-105">
-                        <div class="absolute top-0 right-0 bg-esports-red text-white px-4 py-1 text-sm font-bold rounded-bl-lg">
-                            最受欢迎
+                    <!-- Plan 1: 核心商圈旗舰版 - 投资最高80万，回本最快4-5个月 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 relative flex flex-col">
+                        <div class="absolute top-4 right-4 bg-esports-red text-white px-3 py-1 text-xs font-bold rounded-full">
+                            推荐
                         </div>
                         <div class="bg-gradient-to-br from-tech-blue to-tech-blue-light p-6 text-white text-center">
-                            <h3 class="text-2xl font-black mb-2">高端电竞房</h3>
-                            <p class="text-blue-100 text-sm">性价比最优，强烈推荐</p>
+                            <h3 class="text-2xl font-black mb-2">核心商圈旗舰版</h3>
+                            <p class="text-blue-100 text-sm">中高端定位，快速回本</p>
                             <div class="mt-6">
-                                <div class="text-4xl font-black">¥4.5-6万</div>
-                                <div class="text-blue-100 text-sm mt-1">单间改造成本</div>
+                                <div class="text-4xl font-black">¥80万</div>
+                                <div class="text-blue-100 text-sm mt-1">总改造成本 | 30间房</div>
                             </div>
                         </div>
                         
-                        <div class="p-6 lg:p-8">
+                        <div class="p-6 lg:p-8 flex-1 flex flex-col">
                             <div class="mb-6">
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">投资回报</span>
-                                    <span class="font-bold text-esports-red">4-6个月回本</span>
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">改造规模</span>
+                                        <span class="font-bold text-tech-blue">1-2层，30间</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">均价定位</span>
+                                        <span class="font-bold text-tech-blue">¥360/晚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-700">投资回报</span>
+                                        <span class="font-bold text-esports-red">4-5个月回本</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">建议房价</span>
-                                    <span class="font-bold text-tech-blue">¥450-650/晚</span>
+                                
+                                <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-4">
+                                    <div class="text-sm text-gray-700 mb-2"><strong>财务预期：</strong></div>
+                                    <div class="text-sm text-gray-600 space-y-1">
+                                        <div>• 年营业额：约300万</div>
+                                        <div>• 年利润：约220万</div>
+                                        <div>• 业主投入：80万</div>
+                                        <div>• 入住率：85%</div>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">旗舰级游戏主机（RTX 4070级）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">32英寸曲面电竞屏（240Hz）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">专业电竞座椅</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">高端外设全套（机械键盘等）</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">精致电竞主题装修设计</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-tech-blue mr-3 mt-1"></i>
-                                    <span class="text-gray-700">智能灯光音响系统</span>
-                                </li>
-                            </ul>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-900 mb-3">房型配置：</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-tech-blue mr-2 mt-1"></i>
+                                        <span class="text-gray-700">单人间 30%（RTX5060）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-tech-blue mr-2 mt-1"></i>
+                                        <span class="text-gray-700">大床房 50%（双RTX5060Ti/5070）核心</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-tech-blue mr-2 mt-1"></i>
+                                        <span class="text-gray-700">双床房 20%（双RTX5070）溢价</span>
+                                    </li>
+                                </ul>
+                            </div>
                             
-                            <a href="#contact" class="block w-full bg-tech-blue hover:bg-tech-blue-dark text-white text-center py-3 rounded-lg font-bold transition">
-                                获取详细方案
-                            </a>
+                            <div class="mb-6 text-sm text-gray-600">
+                                <div class="font-semibold mb-1">预算构成：</div>
+                                <div>电竞设备60万（75%）+ 软装店招弱电千兆宽带等20万</div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="#contact" class="block w-full bg-tech-blue hover:bg-tech-blue-dark text-white text-center py-3 rounded-lg font-bold transition">
+                                    获取详细方案
+                                </a>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Plan 3: 豪华套房 -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
-                        <div class="bg-gradient-to-br from-purple-600 to-purple-700 p-6 text-white text-center">
-                            <h3 class="text-2xl font-black mb-2">电竞主题套房</h3>
-                            <p class="text-purple-100 text-sm">顶级配置，打造旗舰店</p>
+                    <!-- Plan 2: 城市开发区版 - 投资中等60万，回本中等8个月 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 flex flex-col">
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 text-white text-center">
+                            <h3 class="text-2xl font-black mb-2">城市开发区版</h3>
+                            <p class="text-green-100 text-sm">中等规模，稳健运营</p>
                             <div class="mt-6">
-                                <div class="text-4xl font-black">¥8-12万</div>
-                                <div class="text-purple-100 text-sm mt-1">单间改造成本</div>
+                                <div class="text-4xl font-black">¥60万</div>
+                                <div class="text-green-100 text-sm mt-1">总改造成本 | 20间房</div>
                             </div>
                         </div>
                         
-                        <div class="p-6 lg:p-8">
+                        <div class="p-6 lg:p-8 flex-1 flex flex-col">
                             <div class="mb-6">
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">投资回报</span>
-                                    <span class="font-bold text-purple-600">5-8个月回本</span>
+                                <div class="bg-green-50 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">改造规模</span>
+                                        <span class="font-bold text-green-600">1-2层，20间</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">均价定位</span>
+                                        <span class="font-bold text-green-600">¥270/晚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-700">投资回报</span>
+                                        <span class="font-bold text-esports-red">8个月回本</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center justify-between text-sm mb-4">
-                                    <span class="text-gray-600">建议房价</span>
-                                    <span class="font-bold text-tech-blue">¥800-1500/晚</span>
+                                
+                                <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-4">
+                                    <div class="text-sm text-gray-700 mb-2"><strong>财务预期：</strong></div>
+                                    <div class="text-sm text-gray-600 space-y-1">
+                                        <div>• 年营业额：约150万</div>
+                                        <div>• 年利润：约90万</div>
+                                        <div>• 总投入：60万</div>
+                                        <div>• 入住率：85%</div>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <ul class="space-y-3 mb-8">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">发烧级主机（RTX 4080+）双机位</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">多屏电竞显示器阵列</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">顶级电竞外设套装</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">沉浸式主题场景设计</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">智能家居全套系统</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-purple-600 mr-3 mt-1"></i>
-                                    <span class="text-gray-700">专业影音娱乐系统</span>
-                                </li>
-                            </ul>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-900 mb-3">配置亮点：</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">RTX5060及以上显卡</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">2K高刷显示器</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">千兆宽带机房</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">复用原运营团队</span>
+                                    </li>
+                                </ul>
+                            </div>
                             
-                            <a href="#contact" class="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-3 rounded-lg font-bold transition">
-                                获取详细方案
-                            </a>
+                            <div class="mb-6 text-sm text-gray-600">
+                                <div class="font-semibold mb-1">预算构成：</div>
+                                <div>电竞设备40万（67%）+ 软装店招机房弱电等20万</div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="#contact" class="block w-full bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">
+                                    获取详细方案
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Plan 3: 产城融合区商圈版 - 投资最低50万，回本最慢11个月 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2 flex flex-col">
+                        <div class="bg-gradient-to-br from-purple-600 to-purple-700 p-6 text-white text-center">
+                            <h3 class="text-2xl font-black mb-2">产城融合区商圈版</h3>
+                            <p class="text-purple-100 text-sm">高性价比，分期扩展</p>
+                            <div class="mt-6">
+                                <div class="text-4xl font-black">¥50万</div>
+                                <div class="text-purple-100 text-sm mt-1">首期成本 | 20间（规划34间）</div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 lg:p-8 flex-1 flex flex-col">
+                            <div class="mb-6">
+                                <div class="bg-purple-50 rounded-lg p-4 mb-4">
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">改造规模</span>
+                                        <span class="font-bold text-purple-600">首期20间</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm mb-2">
+                                        <span class="text-gray-700">均价定位</span>
+                                        <span class="font-bold text-purple-600">¥200/晚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <span class="text-gray-700">投资回报</span>
+                                        <span class="font-bold text-orange-600">11个月回本</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 mb-4">
+                                    <div class="text-sm text-gray-700 mb-2"><strong>财务预期：</strong></div>
+                                    <div class="text-sm text-gray-600 space-y-1">
+                                        <div>• 年营业额：约110万</div>
+                                        <div>• 年利润：约60万</div>
+                                        <div>• 总投入：50万</div>
+                                        <div>• 入住率：85%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-900 mb-3">房型配置：</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-600 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">单电脑大床房 30%（RTX5060Ti）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-600 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">双电脑房 60%（双RTX5070）核心</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-600 mr-2 mt-1"></i>
+                                        <span class="text-gray-700">3-4人间 10%（多RTX5070）溢价</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-6 text-sm text-gray-600">
+                                <div class="font-semibold mb-1">预算构成：</div>
+                                <div>电竞设备30万（60%）+ 软装店招机房弱电等20万</div>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <a href="#contact" class="block w-full bg-purple-600 hover:bg-purple-700 text-white text-center py-3 rounded-lg font-bold transition">
+                                    获取详细方案
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mt-12 text-center">
-                    <p class="text-gray-600 mb-4">不确定选择哪种方案？</p>
+                <!-- 通用改造核心提示 -->
+                <div class="mt-12 bg-white rounded-xl p-6 lg:p-8 shadow-lg">
+                    <h3 class="text-xl lg:text-2xl font-bold text-gray-900 mb-6 text-center">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        通用改造核心提示
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">选址与规模：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-esports-red mr-2 mt-1"></i>
+                                    <span>电竞消费集中且中高端空白区域</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-building text-esports-red mr-2 mt-1"></i>
+                                    <span>改造1-2独立楼层（20-30间）</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-users text-esports-red mr-2 mt-1"></i>
+                                    <span>复用原有运营团队</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">硬件与定价：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-desktop text-esports-red mr-2 mt-1"></i>
+                                    <span>RTX5060及以上显卡 + 2K高刷显示器</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-percentage text-esports-red mr-2 mt-1"></i>
+                                    <span>电竞设备占总预算75%+</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-money-bill-wave text-esports-red mr-2 mt-1"></i>
+                                    <span>按区域定价200-350元/晚</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">房型策略：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-bed text-esports-red mr-2 mt-1"></i>
+                                    <span>双人电竞房为核心（占比50%+）</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-chart-pie text-esports-red mr-2 mt-1"></i>
+                                    <span>搭配单人入门款和多人溢价款</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-star text-esports-red mr-2 mt-1"></i>
+                                    <span>预期入住率85%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-tech-blue mb-3">运营支持：</h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-globe text-esports-red mr-2 mt-1"></i>
+                                    <span>入驻主流OTA + 电竞垂直平台</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-handshake text-esports-red mr-2 mt-1"></i>
+                                    <span>品牌运营赋能费按客房收入4.5%</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-tools text-esports-red mr-2 mt-1"></i>
+                                    <span>全程托管式服务</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <p class="text-gray-600 mb-4">想了解更详细的改造方案和投资分析？</p>
                     <a href="#contact" class="inline-block bg-esports-red hover:bg-esports-red-dark text-white px-8 py-3 rounded-lg font-bold transition">
-                        <i class="fas fa-phone-alt mr-2"></i>联系我们免费上门勘察评估
+                        <i class="fas fa-phone-alt mr-2"></i>免费上门勘察评估
                     </a>
                 </div>
             </div>
